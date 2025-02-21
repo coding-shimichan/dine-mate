@@ -1,1 +1,44 @@
-# dine_mate
+# DineMate
+
+美味しいレストランを開拓したい人たちをつなげるアプリ
+
+## 製品概要
+
+**DineMate** は「特定のレストランに一緒に行く相手」を探せるマッチングアプリです。
+
+新しいお店を開拓したい時、  
+ちょっと高めのランチコースを頼んでみたい時、  
+期間限定のメニューを食べてみたいけど予定の合う友達がいない時…
+
+**DineMate** なら、気の合う食事仲間を簡単に見つけられます。
+
+## 開発言語
+
+- Ruby 3.3.6
+- Ruby on Rails 7.2
+
+## 実行手順
+
+```
+$ git clone https://github.com/coding-shimichan/dine_mate.git
+$ cd dine_mate
+$ bundle install
+$ rails db:create && rails db:migrate
+$ rails s
+```
+
+## チェックシート、カタログ設計、テーブル定義書
+
+https://docs.google.com/spreadsheets/d/1V1-asi4geSUW7nl_99LwHWdVT0AGPBtKIJHR_iUvQfU/edit
+
+## ワイヤーフレーム
+
+https://drive.google.com/file/d/17yq9hxquZ-0DSvNtO7Pt3qg7DIxoO42v/view?usp=sharing
+
+## ER 図
+
+![ER-diagram](https://private-user-images.githubusercontent.com/73827658/415515705-5bd1d91e-5e41-4bac-aa27-df7bf63741ac.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDAxMTc3MTIsIm5iZiI6MTc0MDExNzQxMiwicGF0aCI6Ii83MzgyNzY1OC80MTU1MTU3MDUtNWJkMWQ5MWUtNWU0MS00YmFjLWFhMjctZGY3YmY2Mzc0MWFjLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAyMjElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMjIxVDA1NTY1MlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTdkNjg3ZDRlMmIyYzZjMjliNzhiMTI2Y2EzNGMzMTE3MTliMGUwODdkNmMyMWJmNjUwNzk4NGJmYjFjYTcxZmUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.xX0e3daQyddgu5mlvN_m9fXTGAGStkjohFiLKxC4ppg)
+
+## 画面遷移図
+
+![User-flow](https://private-user-images.githubusercontent.com/73827658/415516442-6ef90e30-6460-4cb2-8af7-ee28f8f9bff8.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDAxMTc3MTIsIm5iZiI6MTc0MDExNzQxMiwicGF0aCI6Ii83MzgyNzY1OC80MTU1MTY0NDItNmVmOTBlMzAtNjQ2MC00Y2IyLThhZjctZWUyOGY4ZjliZmY4LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAyMjElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMjIxVDA1NTY1MlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTc5NDYxMGM1ZjZmYWNhMWVhYjAwZjczOTQ2MzkyMmU5NzM4MjY3NTc3MmFmYjhhOTkzNDZhMTYxMWE2MmYxNmEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.XF6-i0ltEh6Yxg9dvY6UUq3klAftN8KEoqN1rqRaepY)
