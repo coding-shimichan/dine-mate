@@ -41,4 +41,4 @@ https://drive.google.com/file/d/17yq9hxquZ-0DSvNtO7Pt3qg7DIxoO42v/view?usp=shari
 
 ## 画面遷移図
 
-<img src="https://github.com/coding-shimichan/dine-mate/blob/acedc96d7b267d1aa8c77328ca800af2bddf83fb/images/DineMate_User_Flow_Diagram.png" alt="User Flow">
+<img src="https://github.com/coding-shimichan/dine-mate/blob/8a425ba677a375a37b49f6d29bc05776818892ad/images/DineMate_User_Flow_Diagram.png" alt="User Flow">
