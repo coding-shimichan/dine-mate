@@ -2,6 +2,11 @@
 
 <%= render @restaurant %>
 
+<h2>Interested Users</h2>
+<% @restaurant.interested_users.each do |user| %>
+  <%= render partial: "users/user_with_chat_button", locals: { user: user } %>
+<% end %>
+
 <div>
   <%= link_to "Back to search", restaurants_search_path %>
 </div>
