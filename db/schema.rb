@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_27_072625) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_28_005022) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "memories", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "content", null: false
+    t.bigint "user_id", null: false
+    t.bigint "restaurant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_memories_on_restaurant_id"
+    t.index ["user_id"], name: "index_memories_on_user_id"
+  end
 
   create_table "restaurants", force: :cascade do |t|
     t.string "name"
@@ -36,6 +47,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_27_072625) do
     t.index ["user_id"], name: "index_wishlists_on_user_id"
   end
 
+  add_foreign_key "memories", "restaurants"
+  add_foreign_key "memories", "users"
   add_foreign_key "wishlists", "restaurants"
   add_foreign_key "wishlists", "users"
 end

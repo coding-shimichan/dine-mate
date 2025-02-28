@@ -1,0 +1,12 @@
+<% content_for :title, "Editing memory" %>
+
+<h1>Editing memory</h1>
+
+<%= render "form", user: @memory.user, memory: @memory %>
+
+<br>
+
+<div>
+  <%= link_to "Show this memory", user_memory_path(user_id: @memory.user.id, id: @memory.id) %> |
+  <%= link_to "Back to memories", user_memories_path(user_id: @memory.user.id) %>
+</div>

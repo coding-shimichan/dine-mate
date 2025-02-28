@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :users do
     resources :wishlists, only: [ :index, :create, :destroy ]
+    resources :memories
   end
 
   get "/restaurants/search", to: "restaurants#search"
