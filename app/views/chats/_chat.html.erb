@@ -1,0 +1,3 @@
+<div id="<%= dom_id chat %>" class="card">
+  <%= link_to chat.users.map{ |user| user.email }.join(" & "), chat_path(id: chat.id) %>
+</div>

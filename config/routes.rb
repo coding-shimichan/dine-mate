@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  resources :users do
+  resources :users, except: [ :index ] do
     resources :wishlists, only: [ :index, :create, :destroy ]
     resources :memories
+  end
+
+  resources :chats, except: [ :edit, :update ] do
+    resources :messages, only: [ :create ]
   end
 
   get "/restaurants/search", to: "restaurants#search"

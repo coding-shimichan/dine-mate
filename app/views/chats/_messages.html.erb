@@ -1,0 +1,5 @@
+<div id="<%= dom_id chat %>">
+  <% chat.messages.each do |message| %>
+    <%= render partial: "messages/message", locals: { message: message } %>
+  <% end %>
+</div>

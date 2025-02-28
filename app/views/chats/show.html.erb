@@ -1,0 +1,8 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Chat</h1>
+<%= render partial: "chats/messages", locals: { chat: @chat }  %>
+
+<div>
+  <%= link_to "Back to chats", chats_path %>
+</div>

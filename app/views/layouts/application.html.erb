@@ -10,10 +10,9 @@
     <nav>
       <%= link_to "Search", restaurants_search_path %> |
       <%= link_to "Wishlist", user_wishlists_path(user_id: 2) %> |
-      <%= link_to "Invitations", "#" %> |
-      <%= link_to "Chats", "#" %> |
+      <%= link_to "Chats", chats_path %> |
       <%= link_to "Memories", user_memories_path(user_id: 2) %> |
-      <%= link_to "Profile", user_path(id: 2) %>
+      <%= link_to "Profile", user_path(id: 2) %> |
       <%= link_to "Logout", "#" %>
     </nav>
 

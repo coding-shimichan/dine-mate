@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_28_005022) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_28_044538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chat_users", force: :cascade do |t|
+    t.bigint "chat_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_chat_users_on_chat_id"
+    t.index ["user_id"], name: "index_chat_users_on_user_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "memories", force: :cascade do |t|
     t.string "title", null: false
@@ -23,6 +37,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_28_005022) do
     t.datetime "updated_at", null: false
     t.index ["restaurant_id"], name: "index_memories_on_restaurant_id"
     t.index ["user_id"], name: "index_memories_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "chat_id", null: false
+    t.text "content", null: false
+    t.boolean "is_read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -47,8 +72,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_28_005022) do
     t.index ["user_id"], name: "index_wishlists_on_user_id"
   end
 
+  add_foreign_key "chat_users", "chats"
+  add_foreign_key "chat_users", "users"
   add_foreign_key "memories", "restaurants"
   add_foreign_key "memories", "users"
+  add_foreign_key "messages", "chats"
+  add_foreign_key "messages", "users"
   add_foreign_key "wishlists", "restaurants"
   add_foreign_key "wishlists", "users"
 end
