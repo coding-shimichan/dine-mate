@@ -9,3 +9,7 @@
     <%= render message %>
   <% end %>
 </div>
+
+<div id="message-form">
+    <%= render partial: "messages/form", locals: { chat: @chat, message: @message } %>
+</div>

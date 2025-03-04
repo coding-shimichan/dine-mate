@@ -12,4 +12,12 @@ class User < ApplicationRecord
 
   validates :email, presence: true
   validates :password, presence: true, on: :create
+
+  def chat_with?(other_user)
+    chats.joins(:users).where(users: { id: other_user.id }).exists?
+  end
+
+  def chat_with(other_user)
+    chats.joins(:users).where(users: { id: other_user.id }).distinct.first
+  end
 end

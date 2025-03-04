@@ -21,11 +21,13 @@ class ChatsController < ApplicationController
 
   # POST /chats or /chats.json
   def create
-    @chat = Chat.new(chat_params)
+    @chat = Chat.new
+    @chat.users << current_user
+    @chat.users << User.find(params[:user_id])
 
     respond_to do |format|
       if @chat.save
-        format.html { redirect_to @chat, notice: "Chat was successfully created." }
+        format.html { redirect_to chat_messages_path(chat_id: @chat.id), notice: "Chat was successfully created." }
         format.json { render :show, status: :created, location: @chat }
       else
         format.html { render :new, status: :unprocessable_entity }
