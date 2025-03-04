@@ -3,8 +3,7 @@ class ChatsController < ApplicationController
 
   # GET /chats or /chats.json
   def index
-    user_id = 2
-    @chats = Chat.with_participant(user_id)
+    @chats = Chat.with_participant(current_user.id)
   end
 
   # GET /chats/1 or /chats/1.json

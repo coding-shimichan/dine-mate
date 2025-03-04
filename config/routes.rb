@@ -1,8 +1,16 @@
 Rails.application.routes.draw do
-  resources :users, except: [ :index ] do
+  root to: "restaurants#search"
+
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
+  resources :users, except: [ :index, :new, :create, :edit, :update, :destroy ] do
     resources :wishlists, only: [ :index, :create, :destroy ]
     resources :memories
   end
+
+  # resources :sessions, only: [ :create, :destroy ]
+  # get "/sign_in", to: "sessions#new"
 
   resources :chats, except: [ :edit, :update ] do
     resources :messages, only: [ :create ]

@@ -1,10 +1,10 @@
 class WishlistsController < ApplicationController
   # before_action :set_wishlist, only: %i[ show edit update destroy ]
-  before_action :set_user, only: %i[ show edit update destroy create new]
+  before_action :set_user, only: %i[ index show edit update destroy create new ]
 
   # GET /wishlists or /wishlists.json
   def index
-    @wishlists = Wishlist.all
+    @wishlists = @user.wishlists
   end
 
   # GET /wishlists/1 or /wishlists/1.json

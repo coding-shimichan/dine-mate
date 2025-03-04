@@ -8,13 +8,21 @@
     <%= csp_meta_tag %>
 
     <nav>
-      <%= link_to "Search", restaurants_search_path %> |
-      <%= link_to "Wishlist", user_wishlists_path(user_id: 2) %> |
-      <%= link_to "Chats", chats_path %> |
-      <%= link_to "Memories", user_memories_path(user_id: 2) %> |
-      <%= link_to "Profile", user_path(id: 2) %> |
-      <%= link_to "Logout", "#" %>
+      <% if user_signed_in? %>
+        <%= link_to "Search", restaurants_search_path %> |
+        <%= link_to "Wishlist", user_wishlists_path(user_id: current_user.id) %> |
+        <%= link_to "Chats", chats_path %> |
+        <%= link_to "Memories", user_memories_path(user_id: current_user.id) %> |
+        <%= link_to "Profile", user_path(id: current_user.id) %> |
+        <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete } %>
+      <% else %>
+        <%= link_to "Log In", new_user_session_path %> |
+        <%= link_to "Sign Up", new_user_registration_path %>
+      <% end %>
     </nav>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
 
     <%= yield :head %>
 
