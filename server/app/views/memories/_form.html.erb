@@ -11,6 +11,8 @@
     </div>
   <% end %>
 
+  <%= form.hidden_field :restaurant_id, value: params[:restaurant_id] %>
+
   <div>
     <%= form.label :title, style: "display: block" %>
     <%= form.text_field :title %>
@@ -19,16 +21,6 @@
   <div>
     <%= form.label :content, style: "display: block" %>
     <%= form.text_area :content %>
-  </div>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.label :restaurant_id, style: "display: block" %>
-    <%= form.text_field :restaurant_id %>
   </div>
 
   <div>

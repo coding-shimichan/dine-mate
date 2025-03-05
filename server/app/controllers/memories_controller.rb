@@ -4,7 +4,7 @@ class MemoriesController < ApplicationController
 
   # GET /memories or /memories.json
   def index
-    @memories = @user.memories
+    @memories = current_user.memories
   end
 
   # GET /memories/1 or /memories/1.json
@@ -13,7 +13,7 @@ class MemoriesController < ApplicationController
 
   # GET /memories/new
   def new
-    @memory = @user.memories.new
+    @memory = current_user.memories.new
   end
 
   # GET /memories/1/edit
@@ -22,7 +22,7 @@ class MemoriesController < ApplicationController
 
   # POST /memories or /memories.json
   def create
-    @memory = @user.memories.new(memory_params)
+    @memory = current_user.memories.new(memory_params)
 
     respond_to do |format|
       if @memory.save

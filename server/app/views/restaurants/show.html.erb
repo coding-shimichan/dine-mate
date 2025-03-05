@@ -2,20 +2,23 @@
 
 <%= render partial: "restaurants/restaurant", locals: { restaurant: @restaurant } %>
 
-<% if @restaurant.interested_users.include?(current_user)%>
-  <%= link_to "Remove from wishlist", user_wishlist_path(user_id: current_user.id, id: @restaurant["id"]), data: { turbo_method: :DELETE } %>
-<% else %>
-  <%= link_to "Add to wishlist", user_wishlists_path(user_id: current_user.id, params: {restaurant_id: @restaurant["id"]}), data: { turbo_method: :post } %>
-<% end %>
+<% if true %>
+  <% if @restaurant.interested_users.include?(current_user)%>
+    <%= link_to "Remove from wishlist", user_wishlist_path(user_id: current_user.id, id: @restaurant["internal_id"]), data: { turbo_method: :DELETE } %>
+  <% else %>
+    <%= link_to "Add to wishlist", user_wishlists_path(user_id: current_user.id, params: {restaurant_id: @restaurant["internal_id"]}), data: { turbo_method: :post } %>
+  <% end %>
+  <%= link_to "Create memory", new_user_memory_path(user_id: current_user.id, params: {restaurant_id: @restaurant["internal_id"]}) %>
 
-<h2>Interested Users</h2>
-<% @restaurant.interested_users.each do |user| %>
-  <%= render partial: "users/user_with_chat_button", locals: { user: user } %>
-<% end %>
+  <h2>Interested Users</h2>
+  <% @restaurant.interested_users.each do |user| %>
+    <%= render partial: "users/user_with_chat_button", locals: { user: user } %>
+  <% end %>
 
-<h2>Memories</h2>
-<% @restaurant.memories.each do |memory| %>
-  <%= render partial: "memories/memory", locals: { memory: memory } %>
+  <h2>Memories</h2>
+  <% @restaurant.memories.each do |memory| %>
+    <%= render partial: "memories/memory", locals: { memory: memory } %>
+  <% end %>
 <% end %>
 
 <div>

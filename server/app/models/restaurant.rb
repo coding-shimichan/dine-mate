@@ -5,13 +5,19 @@ class Restaurant < ApplicationRecord
 
   # scope :interested_users, ->(resutaurant_id) { find(resutaurant_id).users }
 
-  def self.from_api(data)
-    find_or_initialize_by(id: data["id"]).tap do |restaurant|
-      restaurant.name = data["name"]
-      # restaurant.address = data["address"]
-      # restaurant.image_url = data.dig("photo", "pc", "l")  # Safely fetch nested data
-      # restaurant.phone_number = data["tel"]
-      restaurant.save if restaurant.new_record?  # Save only if it's a new record
+  def self.from_api(external_id)
+    api_executer = HotPepperApi.new
+    response = api_executer.search_by_restaurant_id(external_id)
+
+    return nil unless response.success?
+
+    data = JSON.parse(response.body).dig("results", "shop").first
+
+    restaurant = Restaurant.find_or_create_by(internal_id: data["id"]) do |r|
+      r.external_id = data["id"]
+      r.payload = data
     end
+
+    restaurant
   end
 end
