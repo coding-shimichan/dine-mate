@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_03_013629) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_05_085313) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,7 +32,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_03_013629) do
     t.string "title", null: false
     t.text "content", null: false
     t.bigint "user_id", null: false
-    t.bigint "restaurant_id", null: false
+    t.string "restaurant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["restaurant_id"], name: "index_memories_on_restaurant_id"
@@ -50,10 +50,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_03_013629) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
-  create_table "restaurants", force: :cascade do |t|
-    t.string "name"
+  create_table "restaurants", primary_key: "internal_id", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "external_id"
+    t.jsonb "payload"
+    t.index ["internal_id"], name: "index_restaurants_on_internal_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -70,7 +72,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_03_013629) do
 
   create_table "wishlists", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "restaurant_id", null: false
+    t.string "restaurant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["restaurant_id"], name: "index_wishlists_on_restaurant_id"
@@ -79,10 +81,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_03_013629) do
 
   add_foreign_key "chat_users", "chats"
   add_foreign_key "chat_users", "users"
-  add_foreign_key "memories", "restaurants"
+  add_foreign_key "memories", "restaurants", primary_key: "internal_id"
   add_foreign_key "memories", "users"
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "users"
-  add_foreign_key "wishlists", "restaurants"
+  add_foreign_key "wishlists", "restaurants", primary_key: "internal_id"
   add_foreign_key "wishlists", "users"
 end
