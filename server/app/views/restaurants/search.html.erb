@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Search</h1>
+<div id="search-field">
+  <%= render "search" %>
+</div>
+
+<div>
+  <h2>Search Results</h2>
+  <% if @restaurants %>
+    <% @restaurants.each do |restaurant| %>
+      <%= render partial: "restaurant_card", locals: { restaurant: restaurant } %>
+    <% end %>
+  <% end %>
+</div>

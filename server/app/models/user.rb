@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :memories, dependent: :destroy
   has_many :chat_users, dependent: :destroy
   has_many :chats, through: :chat_users
+  has_many :messages
 
   validates :email, presence: true
   validates :password, presence: true, on: :create

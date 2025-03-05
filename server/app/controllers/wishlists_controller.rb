@@ -1,5 +1,5 @@
 class WishlistsController < ApplicationController
-  # before_action :set_wishlist, only: %i[ show edit update destroy ]
+  # before_action :set_wishlist, only: %i[ destroy ]
   before_action :set_user, only: %i[ index show edit update destroy create new ]
 
   # GET /wishlists or /wishlists.json
@@ -22,11 +22,12 @@ class WishlistsController < ApplicationController
 
   # POST /wishlists or /wishlists.json
   def create
-    @wishlist = @user.wishlists.new(wishlist_params)
+    @wishlist = @user.wishlists.new(restaurant_id: params[:restaurant_id])
 
     respond_to do |format|
       if @wishlist.save
-        format.html { redirect_to @wishlist, notice: "Wishlist was successfully created." }
+        # format.html { redirect_to @wishlist, notice: "Wishlist was successfully created." }
+        format.html { redirect_to restaurant_path(id: params[:restaurant_id]), notice: "Wishlist was successfully created." }
         format.json { render :show, status: :created, location: @wishlist }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -50,10 +51,12 @@ class WishlistsController < ApplicationController
 
   # DELETE /wishlists/1 or /wishlists/1.json
   def destroy
+    @wishlist = @user.wishlists.find_by(restaurant_id: params[:id])
     @wishlist.destroy!
 
     respond_to do |format|
-      format.html { redirect_to wishlists_path, status: :see_other, notice: "Wishlist was successfully destroyed." }
+      # format.html { redirect_to wishlists_path, status: :see_other, notice: "Wishlist was successfully destroyed." }
+      format.html { redirect_to restaurant_path(id: params[:id]), notice: "Restaurant was successfully removed from your wishlist." }
       format.json { head :no_content }
     end
   end
