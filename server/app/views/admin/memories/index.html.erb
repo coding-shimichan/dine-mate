@@ -1,0 +1,23 @@
+<h1>Memories</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Content</th>
+    <th>User ID</th>
+    <th>Restaurant ID</th>
+    <th>Actions</th>
+  </tr>
+  <% @memories.each do |memory| %>
+    <tr>
+      <td><%= memory.id %></td>
+      <td><%= memory.title %></td>
+      <td><%= memory.content %></td>
+      <td><%= memory.user.id %></td>
+      <td><%= memory.restaurant.id %></td>
+      <td>
+        <%= link_to "Delete", admin_memory_path(memory), method: :delete, data: { confirm: "Are you sure?", turbo_method: :delete } %>
+      </td>
+    </tr>
+  <% end %>
+</table>

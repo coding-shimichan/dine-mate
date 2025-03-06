@@ -11,6 +11,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get "dashboard", to: "dashboard#index"
+    resources :users
+    resources :wishlists, only: [ :index, :destroy ]
+    resources :memories
+    resources :chats
   end
 
   # resources :sessions, only: [ :create, :destroy ]
