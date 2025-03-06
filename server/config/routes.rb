@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     resources :memories
   end
 
+  namespace :admin do
+    get "dashboard", to: "dashboard#index"
+  end
+
   # resources :sessions, only: [ :create, :destroy ]
   # get "/sign_in", to: "sessions#new"
 
