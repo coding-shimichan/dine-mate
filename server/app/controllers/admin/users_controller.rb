@@ -4,6 +4,15 @@ class Admin::UsersController < ApplicationController
 
   def index
     @users = User.all
+
+    respond_to do |format|
+      format.html { render :index, status: :ok }
+      format.json { render json: @users, status: :ok }
+    end
+  end
+
+  def new
+    @user = User.new
   end
 
   def show
@@ -14,19 +23,42 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def create
+    @user = User.new(user_params)
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: "User was successfully created.", status: :created }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
-      redirect_to admin_users_path, notice: "ユーザー情報を更新しました。"
-    else
-      render :edit
+
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to admin_user_path(@user), notice: "User was successfully updated.", status: :ok }
+        format.json { render json: @user, status: :ok }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-    redirect_to admin_users_path, notice: "ユーザーを削除しました。"
+
+    respond_to do |format|
+      format.html { redirect_to admin_users_path, notice: "ユーザーを削除しました。", status: :see_other }
+      format.json { head :no_content }
+    end 
   end
 
   private
@@ -36,6 +68,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :admin)
+    params.require(:user).permit(:email, :password, :password_confirmation, :admin)
   end
 end
