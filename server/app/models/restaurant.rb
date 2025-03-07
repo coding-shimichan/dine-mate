@@ -3,7 +3,12 @@ class Restaurant < ApplicationRecord
   has_many :interested_users, through: :wishlists, source: :user
   has_many :memories
 
-  # scope :interested_users, ->(resutaurant_id) { find(resutaurant_id).users }
+  validates :internal_id, presence: true
+  validates :external_id, presence: true
+
+  def self.find_or_fetch(id)
+    find_by(internal_id: id) || from_api(id)
+  end
 
   def self.from_api(external_id)
     api_executer = HotPepperApi.new
@@ -13,11 +18,10 @@ class Restaurant < ApplicationRecord
 
     data = JSON.parse(response.body).dig("results", "shop").first
 
-    restaurant = Restaurant.find_or_create_by(internal_id: data["id"]) do |r|
-      r.external_id = data["id"]
-      r.payload = data
-    end
-
-    restaurant
+    create!(
+      internal_id: data["id"],
+      external_id: data["id"],
+      payload: data
+    )
   end
 end

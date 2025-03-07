@@ -3,11 +3,35 @@ class RestaurantsController < ApplicationController
 
   def search
     @restaurants = query_restaurants(params[:keyword])
+
+    respond_to do |format|
+      format.html { render :search, status: :ok }
+      format.json { render json: @restaurants, status: :ok}
+    end
   end
 
   def show
-    existing_restaurant = Restaurant.find_by(internal_id: params[:id]) || Restaurant.from_api(params[:id])
-    @restaurant = existing_restaurant
+    @restaurant = Restaurant.find_or_fetch(params[:id])
+
+    respond_to do |format|
+      format.html { render :show, restaurant: @restaurant,  status: :ok }
+      format.json { render json: @restaurant, status: :ok}
+    end
+  end
+
+  def interested_users
+    @restaurant = Restaurant.find_or_fetch(params[:restaurant_id])
+
+    respond_to do |format|
+      if @restaurant.interested_users.length > 0
+        format.html { render :interested_users, restaurant: @restaurant,  status: :ok }
+        format.json { render json: @restaurant, status: :ok}
+      else
+        format.html { redirect_to @restaurant, status: :no_content }
+        format.json { header :no_content }
+      end
+    end
+      
   end
 
   private
@@ -21,10 +45,6 @@ class RestaurantsController < ApplicationController
     return nil unless shops_data
 
     shops_data
-  end
-
-  def set_restaurant
-    @restaurant = Restaurant.find_by(id: params[:id] || params[:restaurant_id]) || query_restaurant(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
