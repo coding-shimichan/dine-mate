@@ -1,0 +1,8 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render partial: "memories/memory", locals: { memory: @memory } %>
+
+<div>
+  <%= link_to "Back to memories", admin_memories_path %>
+  <%= button_to "Destroy this memory", admin_memory_path(@memory), method: :delete, data: { confirm: "Are you sure?", turbo_method: :delete } %>
+</div>

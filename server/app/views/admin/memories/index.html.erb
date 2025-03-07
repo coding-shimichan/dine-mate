@@ -16,6 +16,7 @@
       <td><%= memory.user.id %></td>
       <td><%= memory.restaurant.id %></td>
       <td>
+        <%= link_to "Show", admin_memory_path(memory) %>
         <%= link_to "Delete", admin_memory_path(memory), method: :delete, data: { confirm: "Are you sure?", turbo_method: :delete } %>
       </td>
     </tr>
