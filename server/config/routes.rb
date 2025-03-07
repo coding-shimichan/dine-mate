@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get "dashboard", to: "dashboard#index"
     resources :users
+    resources :restaurants, only: [ :index, :show, :destroy ]
     resources :wishlists, only: [ :index, :destroy ]
     resources :memories
     resources :chats
