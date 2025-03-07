@@ -5,12 +5,21 @@ class Admin::WishlistsController < ApplicationController
 
   def index
     @wishlists = Wishlist.all
+
+    respond_to do |format|
+      format.html { render :index, status: :ok }
+      format.json { render json: @wishlists, status: :ok }
+    end
   end
 
   def destroy
     @wishlist = Wishlist.find(params[:id])
     @wishlist.destroy
-    redirect_to admin_wishlists_path, notice: "Wishlist was successfully deleted."
+
+    respond_to do |format|
+      format.html { redirect_to admin_wishlists_path, notice: "Wishlist was successfully deleted.", status: :see_other }
+      format.json { head :no_content }
+    end 
   end
 
   private
@@ -20,6 +29,6 @@ class Admin::WishlistsController < ApplicationController
   end
 
   def wishlist_params
-    params.require(:wishlist).permit(:id, :user_id, :restaurant_id)
+    params.require(:wishlist).permit(:id, :wishlist_id, :restaurant_id)
   end
 end
