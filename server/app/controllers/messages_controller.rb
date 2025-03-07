@@ -29,8 +29,8 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to chat_messages_path(chat_id: @message.chat.id), notice: "Message was successfully created." }
-        format.json { render :show, status: :created, location: @message }
+        format.html { redirect_to chat_messages_path(chat_id: @message.chat.id), notice: "Message was successfully created.", status: :created }
+        format.json { render @message, status: :created }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @message.errors, status: :unprocessable_entity }
