@@ -4,16 +4,21 @@ class Admin::ChatsController < ApplicationController
 
   def index
     @chats = Chat.all
-  end
 
-  def show
-    @chat = Chat.find(params[:id])
+    respond_to do |format|
+      format.html { render :index, status: :ok }
+      format.json { render json: @chats, status: :ok }
+    end
   end
 
   def destroy
     @chat = Chat.find(params[:id])
     @chat.destroy
-    redirect_to admin_chats_path, notice: "Chat was successfully deleted."
+
+    respond_to do |format|
+      format.html { redirect_to admin_chats_path, notice: "Chat was successfully deleted.", status: :see_other }
+      format.json { head :no_content }
+    end 
   end
 
   private
