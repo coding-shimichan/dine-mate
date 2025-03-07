@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   # resources :sessions, only: [ :create, :destroy ]
   # get "/sign_in", to: "sessions#new"
 
-  resources :chats, except: [ :edit, :update, :show ] do
+  resources :chats, except: [ :edit, :update, :show, :new ] do
     resources :messages, only: [ :index, :create ]
   end
 

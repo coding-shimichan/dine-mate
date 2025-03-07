@@ -3,20 +3,7 @@ class ChatsController < ApplicationController
 
   # GET /chats or /chats.json
   def index
-    @chats = Chat.with_participant(current_user.id)
-  end
-
-  # GET /chats/1 or /chats/1.json
-  def show
-  end
-
-  # GET /chats/new
-  def new
-    @chat = Chat.new
-  end
-
-  # GET /chats/1/edit
-  def edit
+    @chats = current_user.chats
   end
 
   # POST /chats or /chats.json
@@ -27,7 +14,7 @@ class ChatsController < ApplicationController
 
     respond_to do |format|
       if @chat.save
-        format.html { redirect_to chat_messages_path(chat_id: @chat.id), notice: "Chat was successfully created." }
+        format.html { redirect_to chat_messages_path(chat_id: @chat.id), notice: "Chat was successfully created.", status: :created }
         format.json { render :show, status: :created, location: @chat }
       else
         format.html { render :new, status: :unprocessable_entity }
