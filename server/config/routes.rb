@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     resources :restaurants, only: [ :index, :show, :destroy ]
     resources :wishlists, only: [ :index, :destroy ]
     resources :memories
-    resources :chats, only: [ :index, :destroy ]
+    resources :chats, only: [ :index, :destroy ] do
+      resources :messages, only: [ :index ]
+    end
   end
 
   # resources :sessions, only: [ :create, :destroy ]

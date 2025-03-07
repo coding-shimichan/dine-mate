@@ -1,65 +1,37 @@
-# require "rails_helper"
+require "rails_helper"
 
-# RSpec.describe "Message management", type: :request do
-#   describe "Message CRUD for admins" do
-#     let!(:admin_user) { FactoryBot.create(:admin_user) }
-#     let!(:first_user) { FactoryBot.create(:first_user) }
-#     let!(:restaurant) { FactoryBot.create(:restaurant) }
-#     let!(:message) { FactoryBot.create(:message, {user_id: first_user.id, restaurant_id: restaurant.id}) }
+RSpec.describe "Message management", type: :request do
+  describe "Message CRUD for admins" do
+    let!(:admin_user) { FactoryBot.create(:admin_user) }
+    let!(:first_user) { FactoryBot.create(:first_user) }
+    let!(:second_user) { FactoryBot.create(:second_user) }
+    let!(:chat) { FactoryBot.create(:chat) }
+    let!(:first_chat_user) { FactoryBot.create(:chat_user, user_id: first_user.id, chat_id: chat.id) }
+    let!(:second_chat_user) { FactoryBot.create(:chat_user, user_id: second_user.id, chat_id: chat.id) }
+    let!(:message) { FactoryBot.create(:message, {user_id: first_user.id, chat_id: chat.id}) }
 
-#     context "Logged in as admin_user, requests HTTP" do
-#       before do
-#         sign_in admin_user
-#       end
+    context "Logged in as admin_user, requests HTTP" do
+      before do
+        sign_in admin_user
+      end
 
-#       it "GET admin_messages" do
-#         get "/admin/messages"
-#         expect(response).to have_http_status(:success)
-#       end
-      
-#       it "GET admin_message" do
-#         get "/admin/messages/#{message.id}"
-#         expect(response).to have_http_status(:success)
-#       end
-
-#       it "DELETE admin_message" do
-#         delete "/admin/messages/#{message.id}"
-#         expect(response).to have_http_status(:see_other)
-#       end
-#     end
+      it "Can GET /admin/chats/:id/messages" do
+        get "/admin/chats/#{chat.id}/messages"
+        expect(response).to have_http_status(:ok)
+      end
+    end
     
-#     context "Logged in as admin_user, requests JSON" do
-#       before do
-#         sign_in admin_user
-#       end
+    context "Logged in as admin_user, requests JSON" do
+      before do
+        sign_in admin_user
+      end
 
-#       headers = { "ACCEPT" => "application/json" }
+      headers = { "ACCEPT" => "application/json" }
 
-#       it "GET admin_messages" do
-#         get "/admin/messages", :headers => headers
-#         json_response = JSON.parse(response.body)
-
-#         expect(response).to have_http_status(:ok)
-#         expect(json_response.length).to eq(Message.all.length)
-#       end
-      
-#       it "GET admin_message" do
-#         get "/admin/messages/#{message.id}", :headers => headers
-#         json_response = JSON.parse(response.body)
-
-#         expect(response).to have_http_status(:ok)
-#         expect(json_response["title"]).to eq(message.title)
-#         expect(json_response["content"]).to eq(message.content)
-#         expect(json_response["user_id"]).to eq(message.user_id)
-#         expect(json_response["restaurant_id"]).to eq(message.restaurant_id)
-#       end
-
-#       it "DELETE admin_message" do
-#         delete "/admin/messages/#{message.id}", :headers => headers
-#         # json_response not available as response is empty
-
-#         expect(response).to have_http_status(:no_content)
-#       end
-#     end
-#   end
-# end
+      it "Can GET /admin/chats/:id/messages" do
+        get "/admin/chats/#{chat.id}/messages", :headers => headers
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+end
