@@ -5,6 +5,11 @@ class MemoriesController < ApplicationController
   # GET /memories or /memories.json
   def index
     @memories = current_user.memories
+
+    respond_to do |format|
+      format.html { render :index, status: :ok }
+      format.json { render json: @memories, status: :ok }
+    end
   end
 
   # GET /memories/1 or /memories/1.json
@@ -26,7 +31,7 @@ class MemoriesController < ApplicationController
 
     respond_to do |format|
       if @memory.save
-        format.html { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully created." }
+        format.html { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully created.", status: :created }
         format.json { render :show, status: :created, location: user_memory_path(user_id: @memory.user.id, id: @memory.id)}
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +44,7 @@ class MemoriesController < ApplicationController
   def update
     respond_to do |format|
       if @memory.update(memory_params)
-        format.html { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully updated." }
+        format.html { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully updated.", status: :ok }
         format.json { render :show, status: :ok, location: user_memory_path(user_id: @memory.user.id, id: @memory.id)}
       else
         format.html { render :edit, status: :unprocessable_entity }
