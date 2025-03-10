@@ -68,6 +68,11 @@ RSpec.configure do |config|
   
   # Include devise for routing test (request spec)
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # Clean up storage on finishing test session
+  config.after(:suite) do
+    FileUtils.rm_rf(Rails.root.join("storage"))
+  end
 end
 
 Shoulda::Matchers.configure do |config|

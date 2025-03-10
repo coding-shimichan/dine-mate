@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   root to: "restaurants#search"
 
   devise_for :users, controllers: {
-    sessions: 'users/sessions'
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
   }
   resources :users, except: [ :index, :new, :create, :edit, :update, :destroy ] do
     resources :wishlists, only: [ :index, :create, :destroy ]
