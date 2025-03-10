@@ -7,12 +7,46 @@ RSpec.describe User, type: :model do
     it { should have_many(:chats) }
     it { should have_many(:messages) }
     it { should have_many(:memories) }
+    it { should have_one_attached(:profile_photo) }
   end
 
   describe "validations" do
     it { should validate_presence_of(:email) }
     it { should validate_presence_of(:password) }
     # it { should validate_uniqueness_of(:email) }
+  end
+
+  describe "profile_photo upload" do
+    let!(:user) { FactoryBot.create(:first_user) }
+
+    it "allows valid image formats" do
+      user.profile_photo.attach(
+        io: File.open(Rails.root.join("spec/fixtures/files/profile.jpg")),
+        filename: "profile.jpg",
+        content_type: "image/jpeg"
+      )
+      expect(user).to be_valid
+    end
+
+    it "rejects invalid image formats" do
+      user.profile_photo.attach(
+        io: File.open(Rails.root.join("spec/fixtures/files/sample.txt")),
+        filename: "sample.txt",
+        content_type: "text/plain"
+      )
+      expect(user).not_to be_valid
+      expect(user.errors[:profile_photo]).to include("must be a JPEG or PNG")
+    end
+
+    it "rejects larger image" do
+      user.profile_photo.attach(
+        io: File.open(Rails.root.join("spec/fixtures/files/large_photo.jpg")),
+        filename: "large_photo.jpg",
+        content_type: "image/jpeg"
+      )
+      expect(user).not_to be_valid
+      expect(user.errors[:profile_photo]).to include("must be less than 2MB")
+    end
   end
 
   describe "chats" do
