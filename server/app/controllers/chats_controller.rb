@@ -6,6 +6,10 @@ class ChatsController < ApplicationController
     @chats = current_user.chats
   end
 
+  def show
+    @chat = Chat.find(params[:id])
+  end
+
   # POST /chats or /chats.json
   def create
     @chat = Chat.new
@@ -14,7 +18,7 @@ class ChatsController < ApplicationController
 
     respond_to do |format|
       if @chat.save
-        format.html { redirect_to chat_messages_path(chat_id: @chat.id), notice: "Chat was successfully created.", status: :created }
+        format.html { redirect_to @chat, notice: "Chat was successfully created.", status: :created }
         format.json { render :show, status: :created, location: @chat }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -46,20 +50,26 @@ class ChatsController < ApplicationController
   #   end
   # end
 
+  def load_messages
+    @chat = Chat.find(params[:id])
+    @messages = @chat.messages.includes(:user).order(created_at: :asc)
+    render partial: "messages/messages", locals: { messages: @messages }
+  end
+
   private
 
-    def set_user
-      @user = User.find(params[:user_id])
-    end
+    # def set_user
+    #   @user = User.find(params[:user_id])
+    # end
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_chat
-      @chat = Chat.find(params[:id])
-    end
+  def set_chat
+    @chat = Chat.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def chat_params
-      # params.fetch(:chat, {})
-      params.require(:chat).permit(:id, :user_id)
-    end
+  # Only allow a list of trusted parameters through.
+  def chat_params
+    # params.fetch(:chat, {})
+    params.require(:chat).permit(:id, :user_id)
+  end
 end

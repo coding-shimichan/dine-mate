@@ -1,7 +1,16 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Chat</h1>
-<%= render partial: "chats/messages", locals: { chat: @chat }  %>
+
+<p><%= @chat.users.first.email %> & <%= @chat.users.second.email %></p>
+
+<div id="messages" data-chat-id="<%= @chat.id %>" data-user-id="<%= current_user.id %>">
+</div>
+
+<form id="message-form">
+  <input type="text" id="message-input" placeholder="Type your message..." />
+  <button type="submit">Send</button>
+</form>
 
 <div>
   <%= link_to "Back to chats", chats_path %>
