@@ -1,0 +1,10 @@
+<h1>Interested Users</h1>
+
+<div id="users">
+  <% @restaurant.interested_users.each do |user| %>
+    <%= render partial: "users/user", locals: { user: user } %>
+    <p>
+      <%= link_to "Show this user", user %>
+    </p>
+  <% end %>
+</div>

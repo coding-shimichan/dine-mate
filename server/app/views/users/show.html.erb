@@ -1,0 +1,9 @@
+<h1>Show User</h1>
+
+<%= render @user %>
+
+<div>
+  <%= link_to "Edit this user", edit_user_registration_path(@user) %>
+
+  <%= button_to "Destroy this user", @user, method: :delete %>
+</div>

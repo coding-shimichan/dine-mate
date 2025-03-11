@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @memory %>
+
+<div>
+  <%= link_to "Edit this memory", edit_user_memory_path(user_id: @memory.user.id, id: @memory.id) %> |
+  <%= link_to "Back to memories", user_memories_path(user_id: @memory.user.id) %>
+
+  <%= button_to "Destroy this memory", user_memory_path(user_id: @memory.user.id, id: @memory.id), method: :delete %>
+</div>

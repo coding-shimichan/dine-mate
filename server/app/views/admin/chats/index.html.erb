@@ -1,0 +1,20 @@
+<h1>Chats</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>User 1</th>
+    <th>User 2</th>
+    <th>Actions</th>
+  </tr>
+  <% @chats.each do |chat| %>
+    <tr>
+      <td><%= chat.id %></td>
+      <td><%= chat.users.first.email %></td>
+      <td><%= chat.users.second.email %></td>
+      <td>
+        <%= link_to "Show", admin_chat_messages_path(chat_id: chat.id) %> |
+        <%= link_to "Delete", admin_chat_path(chat), method: :delete, data: { confirm: "Are you sure?", turbo_method: :delete } %>
+      </td>
+    </tr>
+  <% end %>
+</table>

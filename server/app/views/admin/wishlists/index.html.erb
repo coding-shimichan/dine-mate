@@ -1,0 +1,19 @@
+<h1>Wishlists</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>User ID</th>
+    <th>Restaurant ID</th>
+    <th>Actions</th>
+  </tr>
+  <% @wishlists.each do |wishlist| %>
+    <tr>
+      <td><%= wishlist.id %></td>
+      <td><%= wishlist.user.id %></td>
+      <td><%= wishlist.restaurant.internal_id %></td>
+      <td>
+        <%= link_to "Delete", admin_wishlist_path(wishlist), method: :delete, data: { confirm: "Are you sure?", turbo_method: :delete } %>
+      </td>
+    </tr>
+  <% end %>
+</table>

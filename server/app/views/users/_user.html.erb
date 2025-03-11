@@ -1,0 +1,13 @@
+<div id="<%= dom_id user %>" class="card">
+  <% if user.profile_photo.attached? %>
+    <%= image_tag user.profile_photo, width: 150, height: 150, style: "border-radius: 50%;" %>
+  <% else %>
+    <p>No profile image</p>
+  <% end %>
+
+  <p>
+    <strong>Email:</strong>
+    <%= user.email %>
+  </p>
+
+</div>
