@@ -53,7 +53,12 @@ class ChatsController < ApplicationController
   def load_messages
     @chat = Chat.find(params[:id])
     @messages = @chat.messages.includes(:user).order(created_at: :asc)
-    render partial: "messages/messages", locals: { messages: @messages }
+
+    requester_id = current_user.id
+    other_chat_user = @chat.chat_users.where.not(user_id: requester_id).first
+
+    last_read_message_id = other_chat_user&.last_read_message_id || 0
+    render partial: "messages/messages", locals: { messages: @messages, last_read_message_id: last_read_message_id, requester_id: requester_id }
   end
 
   private
@@ -62,14 +67,12 @@ class ChatsController < ApplicationController
     #   @user = User.find(params[:user_id])
     # end
 
-    # Use callbacks to share common setup or constraints between actions.
   def set_chat
     @chat = Chat.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def chat_params
-    # params.fetch(:chat, {})
     params.require(:chat).permit(:id, :user_id)
   end
 end

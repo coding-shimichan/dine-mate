@@ -1,3 +1,10 @@
-<div id="<%= dom_id message %>" class="card">
-  <p><strong><%= message.user.email %>: </strong><%= message.content %></p>
+<div id="<%= dom_id message %>" class="message" data-chat-id="<%= message.chat_id %>" data-user-id="<%= message.user_id %>" data-message-id="<%= message.id %>" style="display:flex; align-items: flex-end;">
+  <div class="card">
+    <p><strong><%= message.user.email %>: </strong><%= message.content %></p>
+  </div>
+  <% if requester_id && message.user_id == requester_id %>
+    <div class="read-status">
+      <p class="read-flag"><%= message.id <= last_read_message_id ? "Read" : "Unread" %></p>
+    </div>
+  <% end %>
 </div>
