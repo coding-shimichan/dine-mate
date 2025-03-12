@@ -12,7 +12,7 @@ class ChatChannel < ApplicationCable::Channel
   def receive(data)
     chat = Chat.find(data["chat_id"])
     message = chat.messages.create(content: data["content"], user_id: data["user_id"])
-    html_content = ApplicationController.renderer.render(partial: "messages/message", locals: { message: message, requester_id: nil })
+    html_content = render_message(message)
 
     ChatChannel.broadcast_to(chat, {
       type: "new_message",
@@ -37,6 +37,6 @@ class ChatChannel < ApplicationCable::Channel
   private
 
   def render_message(message)
-    ApplicationController.renderer.render(partial: "messages/message", locals: { message: message })
+    ApplicationController.renderer.render(partial: "messages/message", locals: { message: message, requester_id: nil })
   end
 end
