@@ -6,26 +6,30 @@ class ChatsController < ApplicationController
     @chats = current_user.chats
   end
 
+  # def show
+  #   @chat = Chat.find(params[:id])
+  #   @messages = @chat.messages.includes(:user).order(:created_at)
+  #   @chat_user = @chat.chat_users.find_by(user: current_user)
+  
+  #   # last_message = @messages.last
+  #   # if last_message
+  #   #   chat_user = ChatUser.find_by(user: current_user, chat: @chat)
+  #   #   chat_user.update(last_read_message: last_message) if chat_user
+  #   # end
+
+  #   if (latest_message = @chat.messages.last)
+  #     @chat_user.update!(last_read_message: latest_message)
+  
+  #     ChatChannel.broadcast_to(@chat, {
+  #       type: "update_read_status",
+  #       user_id: current_user.id,
+  #       last_read_message_id: latest_message.id
+  #     })
+  #   end
+  # end
+
   def show
     @chat = Chat.find(params[:id])
-    @messages = @chat.messages.includes(:user).order(:created_at)
-    @chat_user = @chat.chat_users.find_by(user: current_user)
-  
-    # last_message = @messages.last
-    # if last_message
-    #   chat_user = ChatUser.find_by(user: current_user, chat: @chat)
-    #   chat_user.update(last_read_message: last_message) if chat_user
-    # end
-
-    if (latest_message = @chat.messages.last)
-      @chat_user.update!(last_read_message: latest_message)
-  
-      ChatChannel.broadcast_to(@chat, {
-        type: "update_read_status",
-        user_id: current_user.id,
-        last_read_message_id: latest_message.id
-      })
-    end
   end
 
   # POST /chats or /chats.json
@@ -71,7 +75,12 @@ class ChatsController < ApplicationController
   def load_messages
     @chat = Chat.find(params[:id])
     @messages = @chat.messages.includes(:user).order(created_at: :asc)
-    render partial: "messages/messages", locals: { messages: @messages }
+
+    requester_id = current_user.id
+    other_chat_user = @chat.chat_users.where.not(user_id: requester_id).first
+
+    last_read_message_id = other_chat_user&.last_read_message_id || 0
+    render partial: "messages/messages", locals: { messages: @messages, last_read_message_id: last_read_message_id, requester_id: requester_id }
   end
 
   private
