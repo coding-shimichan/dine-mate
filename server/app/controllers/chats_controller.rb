@@ -8,6 +8,13 @@ class ChatsController < ApplicationController
 
   def show
     @chat = Chat.find(params[:id])
+    @messages = @chat.messages.includes(:user).order(:created_at)
+  
+    last_message = @messages.last
+    if last_message
+      chat_user = ChatUser.find_by(user: current_user, chat: @chat)
+      chat_user.update(last_read_message: last_message) if chat_user
+    end    
   end
 
   # POST /chats or /chats.json

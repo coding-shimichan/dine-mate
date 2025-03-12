@@ -13,7 +13,25 @@ document.addEventListener("turbo:load", () => {
     { channel: "ChatChannel", chat_id: chatId, user_id: userId },
     {
       received(data) {
-        chatElement.insertAdjacentHTML("beforeend", data.message);
+        console.log({ data });
+
+        const messageElement = document.createElement("div");
+        messageElement.innerHTML = data.message;
+        const newMessage = messageElement.firstElementChild;
+
+        // メッセージの送信者IDを取得
+        const senderId = parseInt(newMessage.dataset.userId, 10);
+
+        console.log({ senderId });
+        console.log({ userId });
+
+        // 自分が送信したメッセージなら「Read / Unread」表示
+        if (senderId === parseInt(userId)) {
+          const readStatusElement = newMessage.querySelector(".read-status");
+          readStatusElement.innerHTML = `<p class="read_flag">Unread</p>`;
+        }
+
+        chatElement.appendChild(newMessage);
       },
 
       connected() {

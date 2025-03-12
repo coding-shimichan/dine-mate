@@ -1,5 +1,3 @@
-<div id="messages" data-chat-id="<%= @chat.id %>" data-user-id="<%= current_user.id %>">
-  <% @messages.each do |message| %>
-    <%= render message %>
-  <% end %>
-</div>
+<% @messages.each do |message| %>
+  <%= render message %>
+<% end %>

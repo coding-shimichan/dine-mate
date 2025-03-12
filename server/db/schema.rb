@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_07_084144) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_12_004242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,7 +47,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_07_084144) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "last_read_message_id"
     t.index ["chat_id"], name: "index_chat_users_on_chat_id"
+    t.index ["last_read_message_id"], name: "index_chat_users_on_last_read_message_id"
     t.index ["user_id"], name: "index_chat_users_on_user_id"
   end
 
@@ -111,6 +113,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_07_084144) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chat_users", "chats"
+  add_foreign_key "chat_users", "messages", column: "last_read_message_id"
   add_foreign_key "chat_users", "users"
   add_foreign_key "memories", "restaurants", primary_key: "internal_id"
   add_foreign_key "memories", "users"
