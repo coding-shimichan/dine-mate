@@ -16,6 +16,19 @@ class ChatChannel < ApplicationCable::Channel
     ChatChannel.broadcast_to(chat, message: render_message(message))
   end
 
+  def mark_as_read(data)
+    chat_user = ChatUser.find_by(chat_id: data["chat_id"], user_id: data["user_id"])
+    return unless chat_user
+
+    chat_user.update!(last_read_message_id: data["last_read_message_id"])
+
+    ChatChannel.broadcast_to(chat_user.chat, {
+      type: "update_read_status",
+      user_id: data["user_id"],
+      last_read_message_id: data["last_read_message_id"]
+    })
+  end
+
   private
 
   def render_message(message)

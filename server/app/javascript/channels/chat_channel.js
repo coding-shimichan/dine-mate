@@ -15,23 +15,27 @@ document.addEventListener("turbo:load", () => {
       received(data) {
         console.log({ data });
 
-        const messageElement = document.createElement("div");
-        messageElement.innerHTML = data.message;
-        const newMessage = messageElement.firstElementChild;
+        if (data.type === "update_read_status") {
+          updateReadStatus(data.last_read_message_id, data.user_id, userId);
+        } else {
+          const messageElement = document.createElement("div");
+          messageElement.innerHTML = data.message;
+          const newMessage = messageElement.firstElementChild;
 
-        // メッセージの送信者IDを取得
-        const senderId = parseInt(newMessage.dataset.userId, 10);
+          const senderId = parseInt(newMessage.dataset.userId, 10);
 
-        console.log({ senderId });
-        console.log({ userId });
+          console.log({ senderId });
+          console.log({ userId });
 
-        // 自分が送信したメッセージなら「Read / Unread」表示
-        if (senderId === parseInt(userId)) {
-          const readStatusElement = newMessage.querySelector(".read-status");
-          readStatusElement.innerHTML = `<p class="read_flag">Unread</p>`;
+          if (senderId === parseInt(userId)) {
+            const readStatusElement = newMessage.querySelector(".read-status");
+            readStatusElement.innerHTML = `<p class="read_flag">Unread</p>`;
+          }
+
+          chatElement.appendChild(newMessage);
+
+          notifyMessageRead();
         }
-
-        chatElement.appendChild(newMessage);
       },
 
       connected() {
@@ -43,6 +47,41 @@ document.addEventListener("turbo:load", () => {
       },
     }
   );
+
+  function updateReadStatus(lastReadMessageId, readerUserId, currentUserId) {
+    if (readerUserId !== currentUserId) {
+      console.log(
+        "Message sent by current user has been opened by other user."
+      );
+
+      // document.querySelectorAll(".read-status").forEach((element) => {
+      document.querySelectorAll(".message").forEach((element) => {
+        const messageId = parseInt(element.dataset.messageId, 10);
+        const readFlag = element.querySelector(".read_flag");
+
+        if (messageId <= lastReadMessageId && readFlag) {
+          readFlag.innerText = "Read";
+          readFlag.dataset.status = "read";
+        }
+      });
+    } else {
+      console.log("Message is not sent by current user.");
+    }
+  }
+
+  function notifyMessageRead() {
+    const lastMessage = document.querySelector("#messages .message:last-child");
+    if (!lastMessage) return;
+
+    const lastMessageId = parseInt(lastMessage.dataset.messageId, 10);
+    console.log(`Notifying server: Read up to message ${lastMessageId}`);
+
+    chatChannel.perform("mark_as_read", {
+      chat_id: chatId,
+      user_id: userId,
+      last_read_message_id: lastMessageId,
+    });
+  }
 
   document
     .getElementById("message-form")
