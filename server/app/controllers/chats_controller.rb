@@ -6,28 +6,6 @@ class ChatsController < ApplicationController
     @chats = current_user.chats
   end
 
-  # def show
-  #   @chat = Chat.find(params[:id])
-  #   @messages = @chat.messages.includes(:user).order(:created_at)
-  #   @chat_user = @chat.chat_users.find_by(user: current_user)
-  
-  #   # last_message = @messages.last
-  #   # if last_message
-  #   #   chat_user = ChatUser.find_by(user: current_user, chat: @chat)
-  #   #   chat_user.update(last_read_message: last_message) if chat_user
-  #   # end
-
-  #   if (latest_message = @chat.messages.last)
-  #     @chat_user.update!(last_read_message: latest_message)
-  
-  #     ChatChannel.broadcast_to(@chat, {
-  #       type: "update_read_status",
-  #       user_id: current_user.id,
-  #       last_read_message_id: latest_message.id
-  #     })
-  #   end
-  # end
-
   def show
     @chat = Chat.find(params[:id])
   end
@@ -89,14 +67,12 @@ class ChatsController < ApplicationController
     #   @user = User.find(params[:user_id])
     # end
 
-    # Use callbacks to share common setup or constraints between actions.
   def set_chat
     @chat = Chat.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def chat_params
-    # params.fetch(:chat, {})
     params.require(:chat).permit(:id, :user_id)
   end
 end
