@@ -4,8 +4,6 @@ document.addEventListener("turbo:load", () => {
   const chatElement = document.getElementById("messages");
   if (!chatElement) return;
 
-  console.log(chatElement);
-
   const chatId = chatElement.dataset.chatId;
   const userId = parseInt(chatElement.dataset.userId, 10);
 
@@ -13,8 +11,6 @@ document.addEventListener("turbo:load", () => {
     { channel: "ChatChannel", chat_id: chatId, user_id: userId },
     {
       received(data) {
-        console.log({ data });
-
         if (data.type === "update_read_status") {
           const lastReadMessageId = parseInt(data.last_read_message_id);
           const readerId = parseInt(data.reader_id);
@@ -22,8 +18,6 @@ document.addEventListener("turbo:load", () => {
         } else if (data.type === "new_message") {
           appendNewMessage(data);
           notifyMessageRead();
-        } else {
-          console.log("Other case!");
         }
       },
 
@@ -42,10 +36,6 @@ document.addEventListener("turbo:load", () => {
 
   function updateReadStatus(lastReadMessageId, readerUserId, currentUserId) {
     if (readerUserId !== currentUserId) {
-      console.log(
-        `User ${readerUserId} has opened messages up to ${lastReadMessageId}`
-      );
-
       document.querySelectorAll(".message").forEach((element) => {
         const messageId = parseInt(element.dataset.messageId, 10);
         const readFlag = element.querySelector(".read-flag");
@@ -55,22 +45,24 @@ document.addEventListener("turbo:load", () => {
           readFlag.dataset.status = "read";
         }
       });
-    } else {
-      console.log("Updated last read message for current user.");
     }
   }
 
   function appendNewMessage(data) {
-    const newMessage = data.html_content;
-    const senderId = parseInt(data.sender_id, 10);
-    chatElement.insertAdjacentHTML("beforeend", newMessage);
+    chatElement.insertAdjacentHTML("beforeend", data.html_content);
     const newMessageElement = chatElement.lastElementChild;
 
+    const senderId = parseInt(data.sender_id, 10);
     if (senderId === userId) {
-      const readStatusElement = document.createElement("div");
-      readStatusElement.classList.add("read-status");
-      readStatusElement.innerHTML = `<p class="read-flag">Unread</p>`;
-      newMessageElement.appendChild(readStatusElement);
+      newMessageElement.appendChild(readStatusElement());
+    }
+
+    function readStatusElement() {
+      const result = document.createElement("div");
+      result.classList.add("read-status");
+      result.innerHTML = `<p class="read-flag">Unread</p>`;
+
+      return result;
     }
   }
 
@@ -79,7 +71,6 @@ document.addEventListener("turbo:load", () => {
     if (!lastMessage) return;
 
     const lastMessageId = parseInt(lastMessage.dataset.messageId, 10);
-    console.log(`Notifying server: Read up to message ${lastMessageId}`);
 
     chatChannel.perform("mark_as_read", {
       chat_id: chatId,
