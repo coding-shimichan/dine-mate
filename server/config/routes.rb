@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get "dashboard", to: "dashboard#index"
     resources :users
     resources :restaurants, only: [ :index, :show, :destroy ]
     resources :wishlists, only: [ :index, :destroy ]
