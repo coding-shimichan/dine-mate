@@ -7,7 +7,7 @@
     <th>Actions</th>
   </tr>
   <% @wishlists.each do |wishlist| %>
-    <tr>
+    <tr class="wishlist-row">
       <td><%= wishlist.id %></td>
       <td><%= wishlist.user.id %></td>
       <td><%= wishlist.restaurant.internal_id %></td>

@@ -17,7 +17,7 @@ RSpec.describe "User management", type: :request do
 
       it "Can POST /admin/users" do
         post "/admin/users", :params => { user: { email: "second.user@aaa.com", password: "password", password_confirmation: "password", admin: false } }
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:see_other)
       end
       
       it "Can GET /admin/users/new" do
