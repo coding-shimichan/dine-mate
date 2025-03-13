@@ -54,10 +54,10 @@ RSpec.describe "Memory management for admin users", type: :system do
     click_link "Back to memories"
     
     # Memories page
-    memories_table = page.find("table")
-    memory_rows = memories_table.all(".memory-row")
-    expect(memory_rows.length).to eq 1
-    expect(memory_rows[0]).to have_css "tr.memory-row td", text: second_memory.id
+    changed_memories_table = page.find("table")
+    changed_memory_rows = memories_table.all(".memory-row")
+    expect(changed_memory_rows.length).to eq 1
+    expect(changed_memory_rows[0]).to have_css "tr.memory-row td", text: second_memory.id
 
     # Go to memory page again
     last_memory_row = page.all(".memory-row").last

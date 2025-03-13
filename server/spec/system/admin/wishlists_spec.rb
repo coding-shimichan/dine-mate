@@ -35,7 +35,8 @@ RSpec.describe "Wishlist management for admin users", type: :system do
     end
 
     # Notification appears and wishlist does not exist
-    expect(page).to have_content "Wishlist was successfully deleted."
+    deletion_notice = page.find("p.notice")
+    expect(deletion_notice).to have_content "Wishlist was successfully deleted."
     expect(wishlists_table.first(".wishlist-row")).not_to have_css "td", text: first_wishlist.id
   end
 end

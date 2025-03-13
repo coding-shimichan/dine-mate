@@ -50,7 +50,9 @@ RSpec.describe "Navigation bar", type: :system do
 
     # Log out
     click_link "Logout"
-    expect(page).to have_content "Signed out successfully."
+    
+    sign_out_notice = page.find("p.notice")
+    expect(sign_out_notice).to have_content "Signed out successfully."
   end
 
   scenario "Log in as admin user" do
