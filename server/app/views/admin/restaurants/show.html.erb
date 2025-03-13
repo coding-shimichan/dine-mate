@@ -3,5 +3,6 @@
 <%= render @restaurant %>
 
 <div>
+  <%= link_to "Back to restaurants", admin_restaurants_path %>
   <%= button_to "Destroy this restaurant", admin_restaurant_path(@restaurant), method: :delete %>
 </div>
