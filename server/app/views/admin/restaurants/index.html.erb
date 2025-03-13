@@ -7,13 +7,13 @@
     <th>Actions</th>
   </tr>
   <% @restaurants.each do |restaurant| %>
-    <tr>
+    <tr class="restaurant-row">
       <td><%= restaurant.internal_id %></td>
       <td><%= restaurant.external_id %></td>
       <td><%= restaurant.payload["name"] %></td>
       <td>
         <%= link_to "Show", admin_restaurant_path(restaurant) %> |
-        <%= link_to "Delete", admin_restaurant_path(restaurant), method: :delete, data: { confirm: "Are you sure?" } %>
+        <%= link_to "Delete", admin_restaurant_path(restaurant), method: :delete, data: { confirm: "Are you sure?", turbo_method: :delete } %>
       </td>
     </tr>
   <% end %>

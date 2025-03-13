@@ -7,7 +7,7 @@
     <th>Actions</th>
   </tr>
   <% @chats.each do |chat| %>
-    <tr>
+    <tr class="chat-row">
       <td><%= chat.id %></td>
       <td><%= chat.users.first.email %></td>
       <td><%= chat.users.second.email %></td>

@@ -28,7 +28,7 @@ class Admin::UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: "User was successfully created.", status: :created }
+        format.html { redirect_to admin_user_path(id: @user.id), notice: "User was successfully created.", status: :see_other }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class Admin::UsersController < ApplicationController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_users_path, notice: "ユーザーを削除しました。", status: :see_other }
+      format.html { redirect_to admin_users_path, notice: "User destroyed successfully.", status: :see_other }
       format.json { head :no_content }
     end 
   end
@@ -64,7 +64,7 @@ class Admin::UsersController < ApplicationController
   private
 
   def require_admin
-    redirect_to root_path, alert: "管理者権限が必要です", status: :forbidden unless current_user.admin?
+    redirect_to root_path, alert: "requires administrator privileges to execute this operation.", status: :forbidden unless current_user.admin?
   end
 
   def user_params
