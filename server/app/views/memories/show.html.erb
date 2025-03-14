@@ -1,6 +1,8 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @memory %>
+<turbo-frame id="memory">
+  <%= render @memory %>
+</turbo-frame>
 
 <div>
   <%= link_to "Edit this memory", edit_user_memory_path(user_id: @memory.user.id, id: @memory.id) %> |

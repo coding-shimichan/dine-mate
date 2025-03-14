@@ -4,6 +4,13 @@
     <%= memory.title %>
   </p>
 
+  <% memory.images.each do |image| %>
+    <div>
+      <p>image</p>
+      <%= image_tag image.variant(resize_to_limit: [300, 300]) %>
+    </div>
+  <% end %>
+
   <p>
     <strong>Content:</strong>
     <%= memory.content %>
@@ -11,12 +18,12 @@
 
   <p>
     <strong>User:</strong>
-    <%= memory.user_id %>
+    <%= link_to memory.user.email, user_path(memory.user) %>
   </p>
 
   <p>
     <strong>Restaurant:</strong>
-    <%= memory.restaurant_id %>
+    <%= link_to memory.restaurant.payload["name"], restaurant_path(memory.restaurant) %>
   </p>
 
 </div>

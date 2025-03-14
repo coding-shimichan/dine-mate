@@ -18,7 +18,7 @@ class MemoriesController < ApplicationController
 
   # GET /memories/new
   def new
-    @memory = current_user.memories.new
+    @memory = current_user.memories.new(restaurant_id: params[:restaurant_id])
   end
 
   # GET /memories/1/edit
@@ -27,12 +27,18 @@ class MemoriesController < ApplicationController
 
   # POST /memories or /memories.json
   def create
-    @memory = current_user.memories.new(memory_params)
+    if params[:memory][:upload_images].length > 0
+      params[:memory][:images] = params[:memory][:upload_images]
+    end
+
+    update_params = memory_params.except(:remove_images, :upload_images)
+    @memory = current_user.memories.new(update_params)
 
     respond_to do |format|
       if @memory.save
         format.html { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully created.", status: :created }
         format.json { render :show, status: :created, location: user_memory_path(user_id: @memory.user.id, id: @memory.id)}
+        format.turbo_stream { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully created.", status: :see_other }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @memory.errors, status: :unprocessable_entity }
@@ -42,10 +48,28 @@ class MemoriesController < ApplicationController
 
   # PATCH/PUT /memories/1 or /memories/1.json
   def update
+    # Remove images
+    if params[:memory][:remove_images]
+      params[:memory][:remove_images].each do |image_id|
+        @memory.images.find_by(id: image_id)&.purge
+      end
+    end
+
+    # Save new images
+    if params[:memory][:upload_images].length > 0
+      params[:memory][:upload_images].each do |image|
+        @memory.images.attach(image)
+      end
+    end
+
+    update_params = memory_params.except(:remove_images, :upload_images, :images)
+
     respond_to do |format|
-      if @memory.update(memory_params)
+      if @memory.update(update_params)
         format.html { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully updated.", status: :ok }
         format.json { render :show, status: :ok, location: user_memory_path(user_id: @memory.user.id, id: @memory.id)}
+        # format.json { render :show, status: :ok, location: @memory}
+        format.turbo_stream { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), status: :see_other }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @memory.errors, status: :unprocessable_entity }
@@ -76,6 +100,6 @@ class MemoriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def memory_params
-      params.require(:memory).permit(:title, :content, :user_id, :restaurant_id)
+      params.require(:memory).permit(:title, :content, :user_id, :restaurant_id, images: [], upload_images: [], remove_images: [])
     end
 end
