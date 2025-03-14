@@ -13,6 +13,11 @@ RSpec.describe Restaurant, type: :model do
   end
 
   describe "query and fetch" do
-    # TODO: Test Restaurant.from_api
+    let!(:restaurant) { FactoryBot.create(:restaurant) }
+
+    it "Fetches existing retaurant" do
+      result = Restaurant.find_or_fetch(restaurant.id)
+      expect(result).to eq restaurant
+    end
   end
 end
