@@ -2,7 +2,12 @@ class RestaurantsController < ApplicationController
   include ActiveModel::Attributes
 
   def search
-    @restaurants = query_restaurants(params[:keyword])
+    if params[:keyword]
+      keyword = params[:keyword].to_s.strip.gsub(/\u3000/, " ")
+      @restaurants = query_restaurants(keyword)
+    else
+      # Do nothing
+    end
 
     respond_to do |format|
       format.html { render :search, status: :ok }
@@ -37,6 +42,10 @@ class RestaurantsController < ApplicationController
   private
 
   def query_restaurants(keyword)
+    if !keyword
+       return nil;
+    end
+    
     api_executer = HotPepperApi.new
     response = api_executer.search_by_keyword(keyword)
     json = JSON.parse(response.body)

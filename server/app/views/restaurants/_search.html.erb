@@ -1,1 +1,16 @@
-<input type="text" placeholder="search restaurants..."></input>
+<%= form_with url: restaurants_search_path, method: :get, onsubmit: "normalizeKeywordAndFormatURL(event);", local: true do %>
+  <input type="text" name="keyword" placeholder="search restaurants..." id="search-field">
+  <button type="submit">Search</button>
+<% end %>
+
+<script>
+  function normalizeKeywordAndFormatURL(event) {
+    event.preventDefault();
+
+    let searchField = document.getElementById("search-field");
+    let keyword = searchField.value.trim().replace(/\u3000/g, " ");
+
+    let url = `<%= restaurants_search_path %>?keyword=` + encodeURIComponent(keyword).replace(/%20/g, "+");
+    window.location.href = url;
+  }
+</script>

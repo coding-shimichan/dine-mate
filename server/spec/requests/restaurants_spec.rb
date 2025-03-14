@@ -48,6 +48,14 @@ RSpec.describe "Restaurant management", type: :request do
         get "/restaurants/#{restaurant.id}/interested_users", :headers => headers
         expect(response).to have_http_status(:ok)
       end
+
+      it "Can GET /restaurants/search?keyword=xxx" do
+        get "/restaurants/search?#{URI.encode_www_form(keyword: 'サイゼリヤ,兵庫')}", :headers => headers
+        expect(response).to have_http_status(:ok)
+        
+        result = JSON.parse(response.body)
+        expect(result.length).to be > 0
+      end
     end
   end
 end
