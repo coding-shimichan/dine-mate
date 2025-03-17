@@ -1,28 +1,9 @@
 import Button from "@/app/components/Button";
 import Card from "@/app/components/Card";
 import Image from "next/image";
-
-interface Restaurant {
-  id: string;
-  name: string;
-  address: string;
-  phoneNumber: string;
-  mainImageSrc?: string;
-}
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  profileImageSrc: string;
-}
-
-interface Memory {
-  id: string;
-  title: string;
-  email: string;
-  mainImageSrc: string;
-}
+import Restaurant from "@/app/types/Restaurant";
+import User from "@/app/types/User";
+import Memory from "@/app/types/Memory";
 
 export default function RestaurantPage() {
   const restaurant: Restaurant = {
@@ -66,24 +47,28 @@ export default function RestaurantPage() {
       title: "Memory 1",
       email: "user1@aa.com",
       mainImageSrc: "/photo-materials/photo2.jpg",
+      restaurant_id: "1",
     },
     {
       id: "2",
       title: "Memory 2",
       email: "user1@aa.com",
       mainImageSrc: "/photo-materials/photo2.jpg",
+      restaurant_id: "1",
     },
     {
       id: "3",
       title: "Memory 3",
       email: "user1@aa.com",
       mainImageSrc: "/photo-materials/photo2.jpg",
+      restaurant_id: "1",
     },
     {
       id: "4",
       title: "Memory 4",
       email: "user1@aa.com",
       mainImageSrc: "/photo-materials/photo2.jpg",
+      restaurant_id: "1",
     },
   ];
 
@@ -147,7 +132,7 @@ export default function RestaurantPage() {
               <Card
                 key={memory.id}
                 mainText={memory.title}
-                subText={memory.email}
+                subText={restaurant.name}
                 imageSrc={memory.mainImageSrc}
               />
             );
