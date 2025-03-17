@@ -25,26 +25,29 @@ export default function RestaurantPage() {
       </div>
       <div>
         <h2>Interested Users</h2>
-        <Card
-          mainText="User 1"
-          subText="user1@aaa.com"
-          imageSrc="/photo-materials/photo2.jpg"
-        />
-        <Card
-          mainText="User 2"
-          subText="user2@aaa.com"
-          imageSrc="/photo-materials/photo2.jpg"
-        />
-        <Card
-          mainText="User 3"
-          subText="user3@aaa.com"
-          imageSrc="/photo-materials/photo2.jpg"
-        />
-        <Card
-          mainText="User 4"
-          subText="user4@aaa.com"
-          imageSrc="/photo-materials/photo2.jpg"
-        />
+
+        <div className="grid grid-cols-3 gap-4 my-4">
+          <Card
+            mainText="User 1"
+            subText="user1@aaa.com"
+            imageSrc="/photo-materials/photo2.jpg"
+          />
+          <Card
+            mainText="User 2"
+            subText="user2@aaa.com"
+            imageSrc="/photo-materials/photo2.jpg"
+          />
+          <Card
+            mainText="User 3"
+            subText="user3@aaa.com"
+            imageSrc="/photo-materials/photo2.jpg"
+          />
+          <Card
+            mainText="User 4"
+            subText="user4@aaa.com"
+            imageSrc="/photo-materials/photo2.jpg"
+          />
+        </div>
       </div>
     </>
   );

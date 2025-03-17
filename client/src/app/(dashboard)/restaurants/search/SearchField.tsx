@@ -1,7 +1,7 @@
 export default function SearchField() {
   return (
     <form className="flex items-center max-w-xl my-4">
-      <label htmlFor="simple-search" className="sr-only">
+      <label htmlFor="search-field" className="sr-only">
         Search
       </label>
       <div className="relative w-full">
