@@ -117,6 +117,7 @@ export default function RestaurantPage() {
                 mainText={user.name}
                 subText={user.email}
                 imageSrc={user.profileImageSrc}
+                href={`/users/${user.id}`}
               />
             );
           })}
@@ -134,6 +135,7 @@ export default function RestaurantPage() {
                 mainText={memory.title}
                 subText={restaurant.name}
                 imageSrc={memory.mainImageSrc}
+                href={`/memories/${memory.id}`}
               />
             );
           })}

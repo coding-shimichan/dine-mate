@@ -131,6 +131,7 @@ export default function UserPage() {
                 mainText={restaurant.name}
                 subText={restaurant.address}
                 imageSrc={restaurant.mainImageSrc}
+                href={`/restaurants/${restaurant.id}`}
               />
             );
           })}
@@ -153,6 +154,7 @@ export default function UserPage() {
                 mainText={memory.title}
                 subText={restaurant.name}
                 imageSrc={memory.mainImageSrc}
+                href={`/memories/${memory.id}`}
               />
             );
           })}
