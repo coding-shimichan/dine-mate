@@ -6,7 +6,7 @@
 
   <p>
     <strong>Restaurant:</strong>
-    <%= wishlist.restaurant.name %>
+    <%= link_to wishlist.restaurant.payload["name"], restaurant_path(wishlist.restaurant) %>
   </p>
 
 </div>
