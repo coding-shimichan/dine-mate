@@ -11,8 +11,6 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :restaurant_id, value: params[:restaurant_id] %>
-
   <div>
     <%= form.label :title, style: "display: block" %>
     <%= form.text_field :title %>
@@ -22,6 +20,26 @@
     <%= form.label :content, style: "display: block" %>
     <%= form.text_area :content %>
   </div>
+
+  <div>
+    <%= form.label :upload_images, "Upload Images" %>
+    <%= form.file_field :upload_images, multiple: true %>
+  </div>
+
+  <% if @memory.images %>
+    <% @memory.images.each do |image| %>
+      <div>
+        <%= image_tag image.variant(resize_to_limit: [150, 150]) %>
+        <label>
+          <input type="checkbox" name="memory[remove_images][]" value="<%= image.id %>">
+          Remove
+        </label>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= form.hidden_field :user_id %>
+  <%= form.hidden_field :restaurant_id %>
 
   <div>
     <%= form.submit %>
