@@ -1,7 +1,7 @@
 export default interface Memory {
   id: string;
   title: string;
-  email: string;
+  content: string;
   mainImageSrc: string;
   restaurant_id: string;
 }
