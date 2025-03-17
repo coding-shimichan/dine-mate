@@ -12,7 +12,7 @@ export default function RestaurantSearchPage() {
       <h2 className="text-4xl font-extrabold dark:text-white">
         Search Results
       </h2>
-      <div>
+      <div className="grid grid-cols-3 gap-4 my-4">
         <Card
           mainText="Restaurant 1"
           subText="Address 1"

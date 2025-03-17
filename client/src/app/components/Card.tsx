@@ -10,7 +10,7 @@ interface CardProps {
 export default function Card(props: CardProps) {
   return (
     <>
-      <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 my-4">
+      <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
         <div className="flex flex-row items-center p-auto">
           {props.imageSrc ? (
             <Image
