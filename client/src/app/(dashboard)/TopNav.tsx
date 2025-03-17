@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function TopNav() {
   const links = [
@@ -12,6 +13,7 @@ export default function TopNav() {
 
   return (
     <nav>
+      <Image src="/vercel.svg" width={160} height={160} alt="DineMate Logo" />
       <ul>
         {links.map((link) => {
           return (
