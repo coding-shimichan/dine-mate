@@ -14,7 +14,9 @@ export default function RestaurantPage() {
           alt="Restaurant main image"
         />
         <div>
-          <h1>Restaurant Name</h1>
+          <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+            Restaurant Name
+          </h1>
           <div>
             <p>Address: Address 1</p>
             <p>Phone Number: 000-1111-1111</p>

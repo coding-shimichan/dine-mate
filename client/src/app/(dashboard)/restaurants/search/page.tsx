@@ -4,12 +4,14 @@ import SearchField from "./SearchField";
 export default function RestaurantSearchPage() {
   return (
     <>
-      <h1>Restaurant Search Page</h1>
-      <div>
-        <SearchField />
-      </div>
+      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+        Restaurant Search
+      </h1>
+      <SearchField />
 
-      <h2>Search Results</h2>
+      <h2 className="text-4xl font-extrabold dark:text-white">
+        Search Results
+      </h2>
       <div>
         <Card
           mainText="Restaurant 1"
