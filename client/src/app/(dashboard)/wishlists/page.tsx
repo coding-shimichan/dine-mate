@@ -1,14 +1,14 @@
-import WishlistCard from "./WishlistCard";
+import Card from "@/app/components/Card";
 
 export default function WishlistsPage() {
   return (
     <>
       <h1>Wishlists</h1>
       <div>
-        <WishlistCard restaurantName="Restaurant 1" />
-        <WishlistCard restaurantName="Restaurant 2" />
-        <WishlistCard restaurantName="Restaurant 3" />
-        <WishlistCard restaurantName="Restaurant 4" />
+        <Card mainText="Restaurant 1" imageSrc="/photo-materials/photo1.jpg" />
+        <Card mainText="Restaurant 2" imageSrc="/photo-materials/photo1.jpg" />
+        <Card mainText="Restaurant 3" imageSrc="/photo-materials/photo1.jpg" />
+        <Card mainText="Restaurant 4" imageSrc="/photo-materials/photo1.jpg" />
       </div>
     </>
   );

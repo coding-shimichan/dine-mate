@@ -1,29 +1,29 @@
-import MemoryCard from "./MemoryCard";
+import Card from "@/app/components/Card";
 
 export default function MemoriesPage() {
   return (
     <>
       <h1>Memories</h1>
       <div>
-        <MemoryCard
-          title="Memory 1"
-          userEmail="user1@aa.com"
-          content="Memory 1 content"
+        <Card
+          mainText="Memory 1"
+          subText="user1@aa.com"
+          imageSrc="/photo-materials/photo2.jpg"
         />
-        <MemoryCard
-          title="Memory 2"
-          userEmail="user1@aa.com"
-          content="Memory 2 content"
+        <Card
+          mainText="Memory 2"
+          subText="user1@aa.com"
+          imageSrc="/photo-materials/photo2.jpg"
         />
-        <MemoryCard
-          title="Memory 3"
-          userEmail="user1@aa.com"
-          content="Memory 3 content"
+        <Card
+          mainText="Memory 3"
+          subText="user1@aa.com"
+          imageSrc="/photo-materials/photo2.jpg"
         />
-        <MemoryCard
-          title="Memory 4"
-          userEmail="user1@aa.com"
-          content="Memory 4 content"
+        <Card
+          mainText="Memory 4"
+          subText="user1@aa.com"
+          imageSrc="/photo-materials/photo2.jpg"
         />
       </div>
     </>

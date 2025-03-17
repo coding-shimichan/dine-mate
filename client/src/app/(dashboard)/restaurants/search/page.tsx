@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import Card from "@/app/components/Card";
 import SearchField from "./SearchField";
 
 export default function RestaurantSearchPage() {
@@ -11,10 +11,26 @@ export default function RestaurantSearchPage() {
 
       <h2>Search Results</h2>
       <div>
-        <RestaurantCard name="Restaurant 1" address="Address 1" />
-        <RestaurantCard name="Restaurant 2" address="Address 2" />
-        <RestaurantCard name="Restaurant 3" address="Address 3" />
-        <RestaurantCard name="Restaurant 4" address="Address 4" />
+        <Card
+          mainText="Restaurant 1"
+          subText="Address 1"
+          imageSrc="/photo-materials/photo1.jpg"
+        />
+        <Card
+          mainText="Restaurant 2"
+          subText="Address 2"
+          imageSrc="/photo-materials/photo1.jpg"
+        />
+        <Card
+          mainText="Restaurant 3"
+          subText="Address 3"
+          imageSrc="/photo-materials/photo1.jpg"
+        />
+        <Card
+          mainText="Restaurant 4"
+          subText="Address 4"
+          imageSrc="/photo-materials/photo1.jpg"
+        />
       </div>
     </>
   );
