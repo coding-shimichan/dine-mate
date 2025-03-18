@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   }
   resources :users, except: [ :index, :new, :create, :edit, :update, :destroy ] do
     resources :wishlists, only: [ :index, :create, :destroy ]
-    resources :memories, only: [ :index ]
+    resources :memories, only: [ :index ], to: "users#memories"
   end
 
   resources :memories, except: [ :index ]

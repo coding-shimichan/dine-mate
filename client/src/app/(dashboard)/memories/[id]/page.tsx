@@ -2,8 +2,8 @@ import Date from "@/app/components/date";
 import Memory from "@/app/types/Memory";
 
 export default async function MemoryPage() {
-  const API_URL = process.env.RAILS_API_URL;
-  const data = await fetch(`${API_URL}/users/1/memories/4`, {
+  const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
+  const data = await fetch(`${API_URL}/memories/5`, {
     method: "GET",
     headers: {
       Accept: "application/json",
