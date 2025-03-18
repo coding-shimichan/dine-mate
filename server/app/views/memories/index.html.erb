@@ -8,9 +8,9 @@
   <% @memories.each do |memory| %>
     <%= render memory %>
     <p>
-      <%= link_to "Show this memory", user_memory_path(user_id: memory.user.id, id: memory.id) %>
+      <%= link_to "Show this memory", memory_path(id: memory.id) %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New memory", new_user_memory_path(user_id: @user.id) %>
+<%= link_to "New memory", new_memory_path %>

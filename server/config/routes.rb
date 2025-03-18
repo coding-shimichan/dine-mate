@@ -7,8 +7,10 @@ Rails.application.routes.draw do
   }
   resources :users, except: [ :index, :new, :create, :edit, :update, :destroy ] do
     resources :wishlists, only: [ :index, :create, :destroy ]
-    resources :memories
+    resources :memories, only: [ :index ]
   end
+
+  resources :memories, except: [ :index ]
 
   namespace :admin do
     resources :users
