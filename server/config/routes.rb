@@ -6,11 +6,13 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   resources :users, except: [ :index, :new, :create, :edit, :update, :destroy ] do
-    resources :wishlists, only: [ :index, :create, :destroy ]
+    resources :wishlists, only: [ :index ], to: "users#wishlists"
     resources :memories, only: [ :index ], to: "users#memories"
   end
 
-  resources :memories, except: [ :index ]
+  resources :wishlists, only: [ :index, :create, :destroy ]
+
+  resources :memories
 
   namespace :admin do
     resources :users

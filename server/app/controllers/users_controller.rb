@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show memories ]
+  before_action :set_user, only: %i[ show memories wishlists ]
 
   # GET /users or /users.json
   # def index
@@ -56,6 +56,16 @@ class UsersController < ApplicationController
   #     format.json { head :no_content }
   #   end
   # end
+
+  # GET /users/:id/wishlists
+  def wishlists
+    @wishlists = @user.wishlists
+
+    respond_to do |format|
+      format.html { render "wishlists/index", locals: { wishlists: @wishlists }, status: :ok }
+      format.json { render json: @wishlists, status: :ok }
+    end
+  end
 
   # GET /users/:id/memories
   def memories
