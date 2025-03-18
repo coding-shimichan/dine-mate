@@ -1,4 +1,4 @@
-import Card from "@/app/components/Card";
+import Card from "@/app/components/card";
 import Image from "next/image";
 import Memory from "@/app/types/Memory";
 import Restaurant from "@/app/types/Restaurant";

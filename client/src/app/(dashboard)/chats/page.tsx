@@ -1,4 +1,4 @@
-import Card from "@/app/components/Card";
+import Card from "@/app/components/card";
 
 export default function ChatsPage() {
   return (

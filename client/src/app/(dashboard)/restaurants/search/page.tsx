@@ -1,4 +1,4 @@
-import Card from "@/app/components/Card";
+import Card from "@/app/components/card";
 import SearchField from "./SearchField";
 import Restaurant from "@/app/types/Restaurant";
 

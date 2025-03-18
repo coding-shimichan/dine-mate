@@ -1,5 +1,5 @@
-import Button from "@/app/components/Button";
-import Card from "@/app/components/Card";
+import Button from "@/app/components/button";
+import Card from "@/app/components/card";
 import Image from "next/image";
 import Restaurant from "@/app/types/Restaurant";
 import User from "@/app/types/User";
