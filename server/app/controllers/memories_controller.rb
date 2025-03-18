@@ -1,10 +1,10 @@
 class MemoriesController < ApplicationController
-  before_action :set_memory, only: %i[ show edit update destroy update_direct destroy_direct ]
-  before_action :set_user, only: %i[ index create ]
+  before_action :set_memory, only: %i[ show edit update destroy ]
+  before_action :set_user, only: %i[ index ]
 
-  # GET /memories or /memories.json
+  # GET /users/:id/memories or /users/:id/memories.json
   def index
-    @memories = current_user.memories
+    @memories = @user.memories
 
     respond_to do |format|
       format.html { render :index, status: :ok }
@@ -29,7 +29,7 @@ class MemoriesController < ApplicationController
   def edit
   end
 
-  # POST /memories or /memories.json
+  # POST /memories
   def create
     if params[:memory][:upload_images].present?
       params[:memory][:images] = params[:memory][:upload_images]
@@ -40,26 +40,6 @@ class MemoriesController < ApplicationController
 
     respond_to do |format|
       if @memory.save
-        format.html { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully created.", status: :created }
-        format.json { render json: @memory, status: :created }
-        format.turbo_stream { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully created.", status: :see_other }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @memory.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def create_direct
-    if params[:memory][:upload_images].present?
-      params[:memory][:images] = params[:memory][:upload_images]
-    end
-
-    update_params = memory_params.except(:remove_images, :upload_images)
-    @memory = current_user.memories.new(update_params)
-
-    respond_to do |format|
-      if @memory.save
         format.json { render json: @memory, status: :created }
       else
         format.json { render json: @memory.errors, status: :unprocessable_entity }
@@ -67,38 +47,8 @@ class MemoriesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /memories/1 or /memories/1.json
+  # DELETE /memories/:id
   def update
-    # Remove images
-    if params[:memory][:remove_images].present?
-      params[:memory][:remove_images].each do |image_id|
-        @memory.images.find_by(id: image_id)&.purge
-      end
-    end
-
-    # Save new images
-    if params[:memory][:upload_images].present?
-      params[:memory][:upload_images].each do |image|
-        @memory.images.attach(image)
-      end
-    end
-
-    update_params = memory_params.except(:remove_images, :upload_images, :images)
-
-    respond_to do |format|
-      if @memory.update(update_params)
-        format.html { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), notice: "Memory was successfully updated.", status: :ok }
-        format.json { render :show, status: :ok, location: user_memory_path(user_id: @memory.user.id, id: @memory.id)}
-        # format.json { render :show, status: :ok, location: @memory}
-        format.turbo_stream { redirect_to user_memory_path(user_id: @memory.user.id, id: @memory.id), status: :see_other }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @memory.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def update_direct
     # Remove images
     if params[:memory][:remove_images].present?
       params[:memory][:remove_images].each do |image_id|
@@ -124,24 +74,8 @@ class MemoriesController < ApplicationController
     end
   end
 
-  # DELETE /memories/1 or /memories/1.json
+  # DELETE /memories/:id
   def destroy
-    if (@memory.user != current_user)
-      respond_to do |format|
-        format.html { redirect_to @memory, notice: "Cannot delete other user's memory.", status: :unprocessable_entity }
-        format.json { render json: @memory.errors, status: :unprocessable_entity }
-      end
-    end
-
-    @memory.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to user_memories_path(user_id: @memory.user.id), status: :see_other, notice: "Memory was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
-  def destroy_direct
     if (@memory.user != current_user)
       respond_to do |format|
         format.json { render json: { message: "Unprocessable entity." }, status: :unprocessable_entity }
