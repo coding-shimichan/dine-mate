@@ -1,59 +1,45 @@
-import Card from "@/app/components/Card";
+import Card from "@/app/components/card";
 import Wishlist from "@/app/types/Wishlist";
 import Restaurant from "@/app/types/Restaurant";
 
-export default function WishlistsPage() {
+export default async function WishlistsPage() {
+  const API_URL = process.env.RAILS_API_URL;
+  const data = await fetch(`${API_URL}/users/1/wishlists`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  });
+  const wishlists: Wishlist[] = await data.json();
+
   const restaurants: Restaurant[] = [
     {
-      id: "1",
+      id: "J000444181",
       name: "Delicious Indian Curry",
       address: "Shibuya, Tokyo, Japan",
       phoneNumber: "03-1234-5678",
       mainImageSrc: "/photo-materials/photo1.jpg",
     },
     {
-      id: "2",
+      id: "J000769317",
       name: "Washoku Restaurant",
       address: "Shinjuku, Tokyo, Japan",
       phoneNumber: "03-1234-5678",
       mainImageSrc: "/photo-materials/photo2.jpg",
     },
     {
-      id: "3",
+      id: "J000962703",
       name: "Yakiniku Restaurant",
       address: "Nakano, Tokyo, Japan",
       phoneNumber: "03-1234-5678",
       mainImageSrc: "/photo-materials/photo1.jpg",
     },
     {
-      id: "4",
+      id: "J003498323",
       name: "Italian restaurant",
       address: "Chuo, Tokyo, Japan",
       phoneNumber: "03-1234-5678",
       mainImageSrc: "/photo-materials/photo1.jpg",
-    },
-  ];
-
-  const wishlists: Wishlist[] = [
-    {
-      id: "1",
-      restaurant_id: "1",
-      user_id: "4",
-    },
-    {
-      id: "2",
-      restaurant_id: "2",
-      user_id: "4",
-    },
-    {
-      id: "3",
-      restaurant_id: "3",
-      user_id: "4",
-    },
-    {
-      id: "4",
-      restaurant_id: "4",
-      user_id: "4",
     },
   ];
 

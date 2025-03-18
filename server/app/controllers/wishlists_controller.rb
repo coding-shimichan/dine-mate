@@ -5,6 +5,11 @@ class WishlistsController < ApplicationController
   # GET /wishlists or /wishlists.json
   def index
     @wishlists = @user.wishlists
+
+    respond_to do |format|
+      format.html { render :index, status: :ok }
+      format.json { render json: @wishlists, status: :ok }
+    end
   end
 
   # GET /wishlists/1 or /wishlists/1.json
