@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import LogoutButton from "../components/logoutButton";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const links = [
@@ -8,7 +9,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "Chats", href: "/chats/" },
     { name: "Memories", href: "/memories/" },
     { name: "Profile", href: "/profile" },
-    { name: "Logout", href: "/users/sign_out" },
   ];
 
   return (
@@ -52,8 +52,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="flex items-center">
               <div className="flex items-center ms-3">
-                <div>
-                  <button
+                {/* <div> */}
+                <LogoutButton />
+                {/* <button
                     type="button"
                     className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                     aria-expanded="false"
@@ -67,9 +68,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       src="/photo-materials/photo1.jpg"
                       alt="user photo"
                     />
-                  </button>
-                </div>
-                <div
+                  </button> */}
+                {/* </div> */}
+                {/* <div
                   className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600"
                   id="dropdown-user"
                 >
@@ -126,7 +127,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       </a>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
