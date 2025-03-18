@@ -1,10 +1,13 @@
 class WishlistsController < ApplicationController
-  # before_action :set_wishlist, only: %i[ destroy ]
-  before_action :set_user, only: %i[ index show edit update destroy create new ]
+  before_action :set_wishlist, only: %i[ destroy ]
 
   # GET /wishlists or /wishlists.json
   def index
-    @wishlists = @user.wishlists
+    if (current_user)
+      @wishlists = current_user.wishlists
+    else
+      @wishlists = User.find(16).wishlists # TODO: Delete this line after implementing login/logout feature
+    end
 
     respond_to do |format|
       format.html { render :index, status: :ok }
@@ -27,7 +30,7 @@ class WishlistsController < ApplicationController
 
   # POST /wishlists or /wishlists.json
   def create
-    @wishlist = @user.wishlists.new(restaurant_id: params[:restaurant_id])
+    @wishlist = Wishlist.new(user_id: params[:user_id], restaurant_id: params[:restaurant_id])
 
     respond_to do |format|
       if @wishlist.save
@@ -70,13 +73,9 @@ class WishlistsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:user_id])
+    def set_wishlist
+      @wishlist = Wishlist.find(params[:id])
     end
-
-    # def set_wishlist
-    #   @wishlist = Wishlist.find(params[:id])
-    # end
 
     # Only allow a list of trusted parameters through.
     def wishlist_params

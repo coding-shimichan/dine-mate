@@ -1,17 +1,16 @@
 import Card from "@/app/components/card";
 import Restaurant from "@/app/types/Restaurant";
-import Memory from "@/app/types/Memory";
+import Wishlist from "@/app/types/Wishlist";
 
-export default async function MemoriesPage() {
+export default async function WishlistsPage() {
   const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
-  const data = await fetch(`${API_URL}/memories`, {
+  const data = await fetch(`${API_URL}/wishlists`, {
     method: "GET",
     headers: {
       Accept: "application/json",
     },
   });
-
-  const memories: Memory[] = await data.json();
+  const wishlists: Wishlist[] = await data.json();
 
   const restaurants: Restaurant[] = [
     {
@@ -47,21 +46,21 @@ export default async function MemoriesPage() {
   return (
     <>
       <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-        Memories
+        Wishlists
       </h1>
       <div className="grid grid-cols-3 gap-4 my-4">
-        {memories.map((memory) => {
+        {wishlists.map((wishlist) => {
           const restaurant =
             restaurants.find(
-              (restaurant) => restaurant.id === memory.restaurant_id
+              (restaurant) => restaurant.id === wishlist.restaurant_id
             ) || restaurants[0];
 
           return (
             <Card
-              key={memory.id}
-              mainText={memory.title}
-              subText={restaurant.name}
-              imageSrc={memory.mainImageSrc}
+              key={wishlist.id}
+              mainText={restaurant.name}
+              imageSrc={restaurant.mainImageSrc}
+              href={`restaurants/${restaurant.id}`}
             />
           );
         })}

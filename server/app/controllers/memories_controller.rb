@@ -1,10 +1,13 @@
 class MemoriesController < ApplicationController
   before_action :set_memory, only: %i[ show edit update destroy ]
-  before_action :set_user, only: %i[ index ]
 
-  # GET /users/:id/memories or /users/:id/memories.json
+  # GET /memories
   def index
-    @memories = @user.memories
+    if (current_user)
+      @memories = current_user.memories
+    else
+      @memories = User.find(16).memories # TODO: Delete this line after implementing login/logout feature
+    end
 
     respond_to do |format|
       format.html { render :index, status: :ok }
@@ -90,10 +93,6 @@ class MemoriesController < ApplicationController
   end
 
   private
-
-    def set_user
-      @user = User.find(params[:user_id])
-    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_memory

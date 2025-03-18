@@ -3,7 +3,7 @@ import Wishlist from "@/app/types/Wishlist";
 import Restaurant from "@/app/types/Restaurant";
 
 export default async function WishlistsPage() {
-  const API_URL = process.env.RAILS_API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
   const data = await fetch(`${API_URL}/users/1/wishlists`, {
     method: "GET",
     headers: {
