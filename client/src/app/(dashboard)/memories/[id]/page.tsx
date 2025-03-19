@@ -3,7 +3,7 @@ import Memory from "@/app/types/Memory";
 
 export default async function MemoryPage() {
   const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
-  const data = await fetch(`${API_URL}/memories/5`, {
+  const data = await fetch(`${API_URL}/api/memories/5`, {
     method: "GET",
     headers: {
       Accept: "application/json",

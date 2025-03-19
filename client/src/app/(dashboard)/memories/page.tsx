@@ -4,7 +4,7 @@ import Memory from "@/app/types/Memory";
 
 export default async function MemoriesPage() {
   const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
-  const data = await fetch(`${API_URL}/memories`, {
+  const data = await fetch(`${API_URL}/api/memories`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -62,6 +62,7 @@ export default async function MemoriesPage() {
               mainText={memory.title}
               subText={restaurant.name}
               imageSrc={memory.mainImageSrc}
+              href={`/memories/${memory.id}`}
             />
           );
         })}

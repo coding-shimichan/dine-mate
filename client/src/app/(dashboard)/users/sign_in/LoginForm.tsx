@@ -25,7 +25,7 @@ export default function LoginForm() {
     const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
 
     try {
-      const response = await fetch(`${API_URL}/users/sign_in`, {
+      const response = await fetch(`${API_URL}/api/users/sign_in`, {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
