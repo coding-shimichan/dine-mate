@@ -1,5 +1,6 @@
 "use client";
 
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {
@@ -14,11 +15,15 @@ export default function LogoutButton() {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          credentials: "include",
         },
       });
 
       if (response.ok) {
         console.log("Logout successful");
+
+        await signOut({ redirect: false });
+
         router.push("/api/auth/signin");
       } else {
         console.error("Logout failed");
