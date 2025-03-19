@@ -1,5 +1,11 @@
-export { default } from "next-auth/middleware";
+import { withAuth } from "next-auth/middleware";
+
+export default withAuth(function middleware() {}, {
+  pages: {
+    signIn: "/api/auth/signin",
+  },
+});
 
 export const config = {
-  matcher: ["/((?!api|signin|_next).*)"],
+  matcher: ["/((?!api/auth/signin|auth/sign_up|_next).*)"],
 };
