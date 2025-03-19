@@ -34,7 +34,11 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  // pages: { signIn: "/sign_in" },
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      return "/restaurants/search";
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
