@@ -5,6 +5,11 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+
+  devise_scope :user do
+    post "/api/users/sign_in" => "api/sessions#create"
+  end
+
   resources :users, except: [ :index, :new, :create, :edit, :update, :destroy ] do
     resources :wishlists, only: [ :index ], to: "users#wishlists"
     resources :memories, only: [ :index ], to: "users#memories"
