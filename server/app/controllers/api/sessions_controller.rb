@@ -12,8 +12,6 @@ class Api::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    binding.irb
-    
     # super
     self.resource = warden.authenticate!(auth_options)
     set_flash_message!(:notice, :signed_in)
