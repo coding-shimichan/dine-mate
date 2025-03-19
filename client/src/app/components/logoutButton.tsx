@@ -6,27 +6,20 @@ export default function LogoutButton() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    const API_URL =
-      process.env.NEXT_PUBLIC_RAILS_API_URL || "http://localhost:3001";
-
-    const csrfToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("CSRF-TOKEN="))
-      ?.split("=")[1];
+    const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
 
     try {
-      const response = await fetch(`${API_URL}/users/sign_out`, {
-        method: "DELETE",
+      const response = await fetch(`${API_URL}/users/tokens/revoke`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken || "",
+          Accept: "application/json",
         },
-        credentials: "include",
       });
 
       if (response.ok) {
         console.log("Logout successful");
-        router.push("/users/sign_in");
+        router.push("/api/auth/signin");
       } else {
         console.error("Logout failed");
       }

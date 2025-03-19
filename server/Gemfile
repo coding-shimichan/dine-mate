@@ -22,6 +22,8 @@ gem "redis", ">= 4.0.1"
 gem 'httparty', '~> 0.22.0'
 # Use rack-cors to allow request from frontend
 gem 'rack-cors'
+# Use devise-api to handle login/logout request via api
+gem 'devise-api', github: 'nejdetkadir/devise-api', branch: 'main'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"

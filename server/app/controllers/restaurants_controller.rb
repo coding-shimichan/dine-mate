@@ -1,6 +1,5 @@
 class RestaurantsController < ApplicationController
   include ActiveModel::Attributes
-
   def search
     if params[:keyword]
       keyword = params[:keyword].to_s.strip.gsub(/\u3000/, " ")
