@@ -21,8 +21,6 @@ Rails.application.routes.draw do
     resources :memories
   end
 
-  resources :memories
-
   namespace :admin do
     resources :users
     resources :restaurants, only: [ :index, :show, :destroy ]
