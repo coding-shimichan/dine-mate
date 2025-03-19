@@ -1,4 +1,4 @@
-import Card from "@/app/components/Card";
+import Card from "@/app/components/card";
 import Image from "next/image";
 import Memory from "@/app/types/Memory";
 import Restaurant from "@/app/types/Restaurant";
@@ -74,6 +74,7 @@ export default function UserPage() {
       content: "Memory 1 content",
       mainImageSrc: "/photo-materials/photo2.jpg",
       restaurant_id: "1",
+      created_at: "2025-02-02 17:06:54",
     },
     {
       id: "2",
@@ -81,6 +82,7 @@ export default function UserPage() {
       content: "Memory 2 content",
       mainImageSrc: "/photo-materials/photo2.jpg",
       restaurant_id: "2",
+      created_at: "2025-02-02 17:06:54",
     },
     {
       id: "3",
@@ -88,6 +90,7 @@ export default function UserPage() {
       content: "Memory 3 content",
       mainImageSrc: "/photo-materials/photo2.jpg",
       restaurant_id: "3",
+      created_at: "2025-02-02 17:06:54",
     },
     {
       id: "4",
@@ -95,6 +98,7 @@ export default function UserPage() {
       content: "Memory 4 content",
       mainImageSrc: "/photo-materials/photo2.jpg",
       restaurant_id: "4",
+      created_at: "2025-02-02 17:06:54",
     },
   ];
 

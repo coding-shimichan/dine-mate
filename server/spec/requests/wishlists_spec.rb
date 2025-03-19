@@ -5,7 +5,7 @@ RSpec.describe "Wishlist management", type: :request do
   describe "Wishlist CRUD for noraml users" do
     let!(:first_user) { FactoryBot.create(:first_user) }
     let!(:restaurant) { FactoryBot.create(:restaurant) }
-    let!(:wishlist) { FactoryBot.build(:wishlist, { user_id: first_user.id, restaurant_id: restaurant.id }) }
+    let!(:wishlist) { FactoryBot.create(:wishlist, { user_id: first_user.id, restaurant_id: restaurant.id }) }
 
     context "Logged in as first_user, requests HTTP" do
       before do
@@ -13,7 +13,8 @@ RSpec.describe "Wishlist management", type: :request do
       end
 
       it "POST user_wishlists" do
-        post "/users/#{first_user.id}/wishlists", :params => { user_id: wishlist.user_id, restaurant_id: wishlist.restaurant_id }
+        # post "/users/#{first_user.id}/wishlists", :params => { user_id: wishlist.user_id, restaurant_id: wishlist.restaurant_id }
+        post "/wishlists", :params => { user_id: first_user.id, restaurant_id: restaurant.id }
         expect(response).to have_http_status(:created)
       end
 
@@ -22,9 +23,8 @@ RSpec.describe "Wishlist management", type: :request do
         expect(response).to have_http_status(:success)
       end
       
-      it "DELETE user_wishlist" do
-        wishlist.save
-        delete "/users/#{first_user.id}/wishlists/#{wishlist.id}"
+      it "DELETE wishlist" do
+        delete "/wishlists/#{wishlist.id}"
         expect(response).to have_http_status(:see_other)
       end
     end
@@ -36,8 +36,8 @@ RSpec.describe "Wishlist management", type: :request do
 
       headers = { "ACCEPT" => "application/json" }
 
-      it "POST user_wishlists" do
-        post "/users/#{first_user.id}/wishlists", :params => { user_id: first_user.id, restaurant_id: restaurant.internal_id }, :headers => headers
+      it "POST wishlists" do
+        post "/wishlists", :params => { user_id: first_user.id, restaurant_id: restaurant.internal_id }, :headers => headers
         json_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:created)
@@ -53,9 +53,8 @@ RSpec.describe "Wishlist management", type: :request do
         expect(json_response.length).to eq(first_user.wishlists.length)
       end
       
-      it "DELETE user_wishlist" do
-        wishlist.save
-        delete "/users/#{first_user.id}/wishlists/#{wishlist.id}", :headers => headers
+      it "DELETE wishlist" do
+        delete "/wishlists/#{wishlist.id}", :headers => headers
         # json_response not available as response is empty
 
         expect(response).to have_http_status(:no_content)

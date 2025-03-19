@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show ]
+  before_action :set_user, only: %i[ show memories wishlists ]
 
   # GET /users or /users.json
   # def index
@@ -57,10 +57,34 @@ class UsersController < ApplicationController
   #   end
   # end
 
+  # GET /users/:id/wishlists
+  def wishlists
+    @wishlists = @user.wishlists
+
+    respond_to do |format|
+      format.html { render "wishlists/index", locals: { wishlists: @wishlists }, status: :ok }
+      format.json { render json: @wishlists, status: :ok }
+    end
+  end
+
+  # GET /users/:id/memories
+  def memories
+    @memories = @user.memories
+
+    respond_to do |format|
+      format.html { render "memories/index", locals: { memories: @memories }, status: :ok }
+      format.json { render json: @memories, status: :ok }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      if (params[:user_id].present?)
+        @user = User.find(params[:user_id])
+      elsif (params[:id].present?)
+        @user = User.find(params[:id])
+      end
     end
 
     # Only allow a list of trusted parameters through.

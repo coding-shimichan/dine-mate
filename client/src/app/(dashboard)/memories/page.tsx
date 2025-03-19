@@ -1,8 +1,18 @@
-import Card from "@/app/components/Card";
+import Card from "@/app/components/card";
 import Restaurant from "@/app/types/Restaurant";
 import Memory from "@/app/types/Memory";
 
-export default function MemoriesPage() {
+export default async function MemoriesPage() {
+  const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
+  const data = await fetch(`${API_URL}/memories`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  const memories: Memory[] = await data.json();
+
   const restaurants: Restaurant[] = [
     {
       id: "1",
@@ -31,37 +41,6 @@ export default function MemoriesPage() {
       address: "Chuo, Tokyo, Japan",
       phoneNumber: "03-1234-5678",
       mainImageSrc: "/photo-materials/photo1.jpg",
-    },
-  ];
-
-  const memories: Memory[] = [
-    {
-      id: "1",
-      title: "Memory 1",
-      content: "Memory 1 content",
-      mainImageSrc: "/photo-materials/photo2.jpg",
-      restaurant_id: "1",
-    },
-    {
-      id: "2",
-      title: "Memory 2",
-      content: "Memory 2 content",
-      mainImageSrc: "/photo-materials/photo2.jpg",
-      restaurant_id: "2",
-    },
-    {
-      id: "3",
-      title: "Memory 3",
-      content: "Memory 3 content",
-      mainImageSrc: "/photo-materials/photo2.jpg",
-      restaurant_id: "3",
-    },
-    {
-      id: "4",
-      title: "Memory 4",
-      content: "Memory 4 content",
-      mainImageSrc: "/photo-materials/photo2.jpg",
-      restaurant_id: "4",
     },
   ];
 

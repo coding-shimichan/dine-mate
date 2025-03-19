@@ -1,3 +1,5 @@
-<img src="<%= restaurant.payload["photo"]["pc"]["l"] %>" />
+<% if restaurant.payload["photo"].present? %>
+  <img src="<%= restaurant.payload["photo"]["pc"]["l"] %>" />
+<% end %>
 <h1><%= restaurant.payload["name"] %></h1>
 <p><%= restaurant.payload["address"] %></p>

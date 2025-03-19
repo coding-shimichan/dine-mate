@@ -4,11 +4,11 @@
 
 <% if true %>
   <% if @restaurant.interested_users.include?(current_user)%>
-    <%= link_to "Remove from wishlist", user_wishlist_path(user_id: current_user.id, id: @restaurant.wishlists.find_by(user_id: current_user.id)), data: { turbo_method: :DELETE } %>
+    <%= link_to "Remove from wishlist", wishlist_path(id: @restaurant.wishlists.find_by(user_id: current_user.id)), data: { turbo_method: :DELETE } %>
   <% else %>
-    <%= link_to "Add to wishlist", user_wishlists_path(user_id: current_user.id, params: {restaurant_id: @restaurant["internal_id"]}), data: { turbo_method: :post } %>
+    <%= link_to "Add to wishlist", wishlists_path(params: { restaurant_id: @restaurant["internal_id"], user_id: current_user.id }), data: { turbo_method: :post } %>
   <% end %>
-  <%= link_to "Create memory", new_user_memory_path(user_id: current_user.id, restaurant_id: @restaurant["internal_id"]) %>
+  <%= link_to "Create memory", new_memory_path(params: { restaurant_id: @restaurant["internal_id"] }) %>
 
   <h2>Interested Users</h2>
   <% @restaurant.interested_users.each do |user| %>

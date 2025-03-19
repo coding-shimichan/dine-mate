@@ -4,4 +4,5 @@ export default interface Memory {
   content: string;
   mainImageSrc: string;
   restaurant_id: string;
+  created_at: string;
 }
