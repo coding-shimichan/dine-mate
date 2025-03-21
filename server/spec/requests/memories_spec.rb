@@ -7,13 +7,13 @@ RSpec.describe "Memory management", type: :request do
     let!(:restaurant) { FactoryBot.create(:restaurant) }
     let!(:memory) { FactoryBot.create(:memory, {user_id: first_user.id, restaurant_id: restaurant.id}) }
     let(:other_memory) { FactoryBot.create(:memory, {user_id: second_user.id, restaurant_id: restaurant.id}) }
+    let(:auth_token) do
+      post "/users/tokens/sign_in", params: { email: first_user.email, password: "password" }
+      JSON.parse(response.body)["token"]
+    end
+    let!(:headers) { { "ACCEPT" => "application/json", "Authorization" => "Bearer #{auth_token}" } }
 
     context "Logged in as first_user, requests JSON, through resources routes" do
-      before do
-        sign_in first_user
-      end
-
-      headers = { "ACCEPT" => "application/json" }
 
       it "GET user_memories" do
         get "/users/#{first_user.id}/memories", :headers => headers
@@ -25,12 +25,6 @@ RSpec.describe "Memory management", type: :request do
     end
 
     context "Logged in as first_user, requests JSON, through api resources routes" do
-      before do
-        sign_in first_user
-      end
-
-      headers = { "ACCEPT" => "application/json" }
-
       it "GET user_memories" do
         get "/users/#{first_user.id}/memories", :headers => headers
         json_response = JSON.parse(response.body)
