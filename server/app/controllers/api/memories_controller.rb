@@ -1,35 +1,18 @@
 class Api::MemoriesController < ApplicationController
-  before_action :set_memory, only: %i[ show edit update destroy ]
+  before_action :set_memory, only: %i[ show update destroy ]
+  before_action :authenticate_devise_api_token!
 
   # GET /memories
+  # => Returns current user's memories
   def index
-    if (current_user)
-      @memories = current_user.memories
-    else
-      @memories = User.find(16).memories # TODO: Delete this line after implementing login/logout feature
-    end
+    @memories = current_devise_api_user.memories
 
-    respond_to do |format|
-      format.html { render :index, status: :ok }
-      format.json { render json: @memories, status: :ok }
-    end
+    render json: @memories, status: :ok
   end
 
   # GET /memories/1 or /memories/1.json
   def show
-    respond_to do |format|
-      format.html { render :show, status: :ok }
-      format.json { render json: @memory, status: :ok}
-    end
-  end
-
-  # GET /memories/new
-  def new
-    @memory = current_user.memories.new(restaurant_id: params[:restaurant_id])
-  end
-
-  # GET /memories/1/edit
-  def edit
+    render json: @memory, status: :ok
   end
 
   # POST /memories
@@ -50,7 +33,7 @@ class Api::MemoriesController < ApplicationController
     end
   end
 
-  # DELETE /memories/:id
+  # PUT /memories/:id
   def update
     # Remove images
     if params[:memory][:remove_images].present?

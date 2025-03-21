@@ -1,48 +1,37 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 import Card from "@/app/components/card";
-import Restaurant from "@/app/types/Restaurant";
 import Memory from "@/app/types/Memory";
 
-export default async function MemoriesPage() {
+export default async function MemoryPage() {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.token) {
+    return <div>You must be logged in to view your memories.</div>;
+  }
+
   const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
-  const data = await fetch(`${API_URL}/api/memories`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-  });
+  let memories: Memory[] = [];
 
-  const memories: Memory[] = await data.json();
+  try {
+    const response = await fetch(`${API_URL}/api/memories`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${session.token}`,
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
 
-  const restaurants: Restaurant[] = [
-    {
-      id: "1",
-      name: "Delicious Indian Curry",
-      address: "Shibuya, Tokyo, Japan",
-      phoneNumber: "03-1234-5678",
-      mainImageSrc: "/photo-materials/photo1.jpg",
-    },
-    {
-      id: "2",
-      name: "Washoku Restaurant",
-      address: "Shinjuku, Tokyo, Japan",
-      phoneNumber: "03-1234-5678",
-      mainImageSrc: "/photo-materials/photo2.jpg",
-    },
-    {
-      id: "3",
-      name: "Yakiniku Restaurant",
-      address: "Nakano, Tokyo, Japan",
-      phoneNumber: "03-1234-5678",
-      mainImageSrc: "/photo-materials/photo1.jpg",
-    },
-    {
-      id: "4",
-      name: "Italian restaurant",
-      address: "Chuo, Tokyo, Japan",
-      phoneNumber: "03-1234-5678",
-      mainImageSrc: "/photo-materials/photo1.jpg",
-    },
-  ];
+    if (response.ok) {
+      memories = await response.json();
+    } else {
+      return <div>Failed to fetch memories.</div>;
+    }
+  } catch (err) {
+    return <div>An error occurred while fetching memories.</div>;
+  }
 
   return (
     <>
@@ -51,16 +40,10 @@ export default async function MemoriesPage() {
       </h1>
       <div className="grid grid-cols-3 gap-4 my-4">
         {memories.map((memory) => {
-          const restaurant =
-            restaurants.find(
-              (restaurant) => restaurant.id === memory.restaurant_id
-            ) || restaurants[0];
-
           return (
             <Card
               key={memory.id}
               mainText={memory.title}
-              subText={restaurant.name}
               imageSrc={memory.mainImageSrc}
               href={`/memories/${memory.id}`}
             />
