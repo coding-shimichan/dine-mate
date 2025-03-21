@@ -15,10 +15,9 @@ Rails.application.routes.draw do
     resources :memories, only: [ :index ], to: "users#memories"
   end
 
-  resources :wishlists, only: [ :index, :create, :destroy ]
-
   namespace :api do
     resources :memories
+    resources :wishlists, only: [ :index, :create, :destroy ]
   end
 
   namespace :admin do

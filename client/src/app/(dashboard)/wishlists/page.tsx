@@ -4,7 +4,7 @@ import Wishlist from "@/app/types/Wishlist";
 
 export default async function WishlistsPage() {
   const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
-  const data = await fetch(`${API_URL}/wishlists`, {
+  const data = await fetch(`${API_URL}/api/wishlists`, {
     method: "GET",
     headers: {
       Accept: "application/json",
