@@ -1,17 +1,11 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 import Card from "@/app/components/card";
 import Restaurant from "@/app/types/Restaurant";
 import Wishlist from "@/app/types/Wishlist";
 
-export default async function WishlistsPage() {
-  const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
-  const data = await fetch(`${API_URL}/api/wishlists`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-  });
-  const wishlists: Wishlist[] = await data.json();
-
+export default async function WishlistPage() {
   const restaurants: Restaurant[] = [
     {
       id: "1",
@@ -43,6 +37,34 @@ export default async function WishlistsPage() {
     },
   ];
 
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.token) {
+    return <div>You must be logged in to view your wishlists.</div>;
+  }
+
+  const API_URL = process.env.NEXT_PUBLIC_RAILS_API_URL;
+  let wishlists: Wishlist[] = [];
+
+  try {
+    const response = await fetch(`${API_URL}/api/wishlists`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${session.token}`,
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
+
+    if (response.ok) {
+      wishlists = await response.json();
+    } else {
+      return <div>Failed to fetch wishlists.</div>;
+    }
+  } catch (err) {
+    return <div>An error occurred while fetching wishlists.</div>;
+  }
+
   return (
     <>
       <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
@@ -60,7 +82,7 @@ export default async function WishlistsPage() {
               key={wishlist.id}
               mainText={restaurant.name}
               imageSrc={restaurant.mainImageSrc}
-              href={`restaurants/${restaurant.id}`}
+              href={`restaurants/${wishlist.restaurant_id}`}
             />
           );
         })}

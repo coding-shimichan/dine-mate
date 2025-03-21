@@ -1,14 +1,11 @@
 class Api::WishlistsController < ApplicationController
   before_action :set_wishlist, only: %i[ destroy update ]
+  before_action :authenticate_devise_api_token!
 
   # GET /wishlists
   # => Returns current user's wishlists
   def index
-    if (current_user)
-      @wishlists = current_user.wishlists
-    else
-      @wishlists = User.find(16).wishlists # TODO: Delete this line after implementing login/logout feature
-    end
+    @wishlists = current_devise_api_user.wishlists
 
     render json: @wishlists, status: :ok
   end
