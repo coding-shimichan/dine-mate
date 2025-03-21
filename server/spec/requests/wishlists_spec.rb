@@ -6,43 +6,20 @@ RSpec.describe "Wishlist management", type: :request do
     let!(:first_user) { FactoryBot.create(:first_user) }
     let!(:restaurant) { FactoryBot.create(:restaurant) }
     let!(:wishlist) { FactoryBot.create(:wishlist, { user_id: first_user.id, restaurant_id: restaurant.id }) }
-
-    context "Logged in as first_user, requests HTTP" do
-      before do
-        sign_in first_user
-      end
-
-      it "POST user_wishlists" do
-        # post "/users/#{first_user.id}/wishlists", :params => { user_id: wishlist.user_id, restaurant_id: wishlist.restaurant_id }
-        post "/wishlists", :params => { user_id: first_user.id, restaurant_id: restaurant.id }
-        expect(response).to have_http_status(:created)
-      end
-
-      it "GET user_wishlists" do
-        get "/users/#{first_user.id}/wishlists"
-        expect(response).to have_http_status(:success)
-      end
-      
-      it "DELETE wishlist" do
-        delete "/wishlists/#{wishlist.id}"
-        expect(response).to have_http_status(:see_other)
-      end
+    let(:auth_token) do
+      post "/users/tokens/sign_in", params: { email: first_user.email, password: "password" }
+      JSON.parse(response.body)["token"]
     end
-    
-    context "Logged in as first_user, requests JSON" do
-      before do
-        sign_in first_user
-      end
+    let!(:headers) { { "ACCEPT" => "application/json", "Authorization" => "Bearer #{auth_token}" } }
 
-      headers = { "ACCEPT" => "application/json" }
-
+    context "Logged in as first_user, requests JSON thorugh api resources routes" do
       it "POST wishlists" do
-        post "/wishlists", :params => { user_id: first_user.id, restaurant_id: restaurant.internal_id }, :headers => headers
+        post "/api/wishlists", :params => { restaurant_id: restaurant.internal_id, user_id: first_user.id }, :headers => headers
         json_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:created)
-        expect(json_response["user_id"]).to eq(first_user.id)
         expect(json_response["restaurant_id"]).to eq(restaurant.internal_id)
+        expect(json_response["user_id"]).to eq(first_user.id)
       end
 
       it "GET user_wishlists" do
@@ -54,10 +31,8 @@ RSpec.describe "Wishlist management", type: :request do
       end
       
       it "DELETE wishlist" do
-        delete "/wishlists/#{wishlist.id}", :headers => headers
-        # json_response not available as response is empty
-
-        expect(response).to have_http_status(:no_content)
+        delete "/api/wishlists/#{wishlist.id}", :headers => headers
+        expect(response).to have_http_status(:no_content) # json_response not available as response is empty
       end
     end
   end

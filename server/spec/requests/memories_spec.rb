@@ -7,25 +7,24 @@ RSpec.describe "Memory management", type: :request do
     let!(:restaurant) { FactoryBot.create(:restaurant) }
     let!(:memory) { FactoryBot.create(:memory, {user_id: first_user.id, restaurant_id: restaurant.id}) }
     let(:other_memory) { FactoryBot.create(:memory, {user_id: second_user.id, restaurant_id: restaurant.id}) }
+    let(:auth_token) do
+      post "/users/tokens/sign_in", params: { email: first_user.email, password: "password" }
+      JSON.parse(response.body)["token"]
+    end
+    let!(:headers) { { "ACCEPT" => "application/json", "Authorization" => "Bearer #{auth_token}" } }
 
-    context "Logged in as first_user, requests HTTP" do
-      before do
-        sign_in first_user
-      end
+    context "Logged in as first_user, requests JSON, through resources routes" do
 
       it "GET user_memories" do
-        get "/users/#{first_user.id}/memories"
-        expect(response).to have_http_status(:success)
+        get "/users/#{first_user.id}/memories", :headers => headers
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:ok)
+        expect(json_response.length).to eq(first_user.memories.length)
       end
     end
-    
-    context "Logged in as first_user, requests JSON, through resources routes" do
-      before do
-        sign_in first_user
-      end
 
-      headers = { "ACCEPT" => "application/json" }
-
+    context "Logged in as first_user, requests JSON, through api resources routes" do
       it "GET user_memories" do
         get "/users/#{first_user.id}/memories", :headers => headers
         json_response = JSON.parse(response.body)
@@ -35,7 +34,7 @@ RSpec.describe "Memory management", type: :request do
       end
       
       it "GET memory" do
-        get "/memories/#{memory.id}", :headers => headers
+        get "/api/memories/#{memory.id}", :headers => headers
         json_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:ok)
@@ -46,7 +45,7 @@ RSpec.describe "Memory management", type: :request do
       end
 
       it "POST memory" do
-        post "/memories", :params => { :memory => { title: "Great Dinner", content: "Had an amazing steak!", user_id: first_user.id, restaurant_id: restaurant.internal_id } }, :headers => headers
+        post "/api/memories", :params => { :memory => { title: "Great Dinner", content: "Had an amazing steak!", user_id: first_user.id, restaurant_id: restaurant.internal_id } }, :headers => headers
         json_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:created)
@@ -56,7 +55,7 @@ RSpec.describe "Memory management", type: :request do
       end
 
       it "PUT memory" do
-        put "/memories/#{memory.id}", :params => { :memory => { title: "Test 2" } }, :headers => headers
+        put "/api/memories/#{memory.id}", :params => { :memory => { title: "Test 2" } }, :headers => headers
         json_response = JSON.parse(response.body)
 
         expect(response).to have_http_status(:success)
@@ -67,12 +66,12 @@ RSpec.describe "Memory management", type: :request do
       end
 
       it "DELETE memory create by first_user" do
-        delete "/memories/#{memory.id}", :headers => headers
+        delete "/api/memories/#{memory.id}", :headers => headers
         expect(response).to have_http_status(:no_content) # json_response not available as response is empty
       end
 
       it "Cannot DELETE memory create by other_user" do
-        delete "/memories/#{other_memory.id}", :headers => headers
+        delete "/api/memories/#{other_memory.id}", :headers => headers
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end

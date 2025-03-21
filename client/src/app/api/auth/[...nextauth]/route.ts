@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "DineMate",
@@ -23,11 +23,12 @@ const authOptions: NextAuthOptions = {
             Accept: "application/json",
           },
         });
-        const user = await res.json();
-        console.log({ res });
+        const data = await res.json();
         // If no error and we have user data, return it
-        if (res.ok && user) {
-          return user;
+        if (res.ok && data.token) {
+          return {
+            ...data, // accessible as 'user' in jwt method
+          };
         }
         // Return null if user data could not be retrieved
         return null;
@@ -35,9 +36,24 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (user) {
+        token = { ...user };
+      }
+      return token;
+    },
+    async session({ session, user, token }) {
+      if (token) {
+        session = { ...token };
+      }
+      return session;
+    },
     async redirect({ url, baseUrl }) {
       return "/restaurants/search";
     },
+  },
+  session: {
+    strategy: "jwt",
   },
 };
 

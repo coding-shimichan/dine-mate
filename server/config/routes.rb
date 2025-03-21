@@ -15,9 +15,10 @@ Rails.application.routes.draw do
     resources :memories, only: [ :index ], to: "users#memories"
   end
 
-  resources :wishlists, only: [ :index, :create, :destroy ]
-
-  resources :memories
+  namespace :api do
+    resources :memories
+    resources :wishlists, only: [ :index, :create, :destroy ]
+  end
 
   namespace :admin do
     resources :users
@@ -28,9 +29,6 @@ Rails.application.routes.draw do
       resources :messages, only: [ :index ]
     end
   end
-
-  # resources :sessions, only: [ :create, :destroy ]
-  # get "/sign_in", to: "sessions#new"
 
   resources :chats, except: [ :edit, :update, :new ] do
     # resources :messages, only: [ :index, :create ]
